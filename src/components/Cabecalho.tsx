@@ -1,4 +1,5 @@
 import { Link } from "next-view-transitions";
+import { LinkSecao } from "./LinkSecao";
 import { Logo } from "./Logo";
 
 export function Cabecalho() {
@@ -10,13 +11,13 @@ export function Cabecalho() {
       <nav aria-label="Principal">
         <ul>
           <li>
-            <Link href="/#lojas">Lojas</Link>
+            <LinkSecao id="lojas">Lojas</LinkSecao>
           </li>
           <li>
-            <Link href="/#o-patio">O Pátio</Link>
+            <LinkSecao id="o-patio">O Pátio</LinkSecao>
           </li>
           <li>
-            <Link href="/#ficha">Ficha técnica</Link>
+            <LinkSecao id="ficha">Ficha técnica</LinkSecao>
           </li>
         </ul>
       </nav>

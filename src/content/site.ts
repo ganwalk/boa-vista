@@ -8,6 +8,9 @@ export const site = {
   resumo:
     "Galeria de lojas, serviços e gastronomia em Goiânia, ao lado dos condomínios Jardins.",
   status: "Em obra",
+  // Rodapé da hero, à esquerda (em espelho com o nome da loja à direita).
+  lugar: "Goiânia",
+  vizinhanca: "Ao lado dos condomínios Jardins",
   // Ex.: "Abertura prevista para o segundo semestre de 2027". Vazio = não aparece.
   abertura: "",
   // Ex.: "Av. ..., Goiânia, GO". Vazio = não aparece.

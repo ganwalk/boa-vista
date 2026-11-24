@@ -3,37 +3,23 @@
 import { useEffect, useRef, useState } from "react";
 import type { Loja } from "@/content/lojas";
 import { site } from "@/content/site";
+import { irPara } from "@/lib/irPara";
 import { Facade } from "./Facade";
 import { Lockup } from "./Lockup";
 
 const INTERVALO = 3400; // tempo de cada loja no revezamento (ms)
-const FIM_DO_DESENHO = 1500; // quando a fachada termina de se desenhar (ms)
 
-// Rolagem suave até a lista de lojas, com aceleração e frenagem (ease-in-out).
-function deslizarAte(alvo: HTMLElement) {
+// Quando o último traço da fachada termina de se desenhar (ms), lido do próprio desenho:
+// cada traço espera `--i × 9ms` e leva 1,1s (ver @keyframes desenhar no CSS).
+function fimDoDesenho(raiz: HTMLElement | null) {
   const reduz = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const destino = alvo.getBoundingClientRect().top + window.scrollY;
-  if (reduz) {
-    window.scrollTo(0, destino);
-  } else {
-    const inicio = window.scrollY;
-    const distancia = destino - inicio;
-    const duracao = Math.min(1400, 700 + Math.abs(distancia) * 0.35);
-    const t0 = performance.now();
-    const html = document.documentElement;
-    const antes = html.style.scrollBehavior;
-    html.style.scrollBehavior = "auto";
-    const passo = (agora: number) => {
-      const t = Math.min(1, (agora - t0) / duracao);
-      const e = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-      window.scrollTo(0, inicio + distancia * e);
-      if (t < 1) requestAnimationFrame(passo);
-      else html.style.scrollBehavior = antes;
-    };
-    requestAnimationFrame(passo);
-  }
-  history.replaceState(null, "", "#lojas");
-  alvo.querySelector<HTMLElement>("h2")?.focus({ preventScroll: true });
+  if (reduz || !raiz) return 0;
+  let maior = 0;
+  raiz.querySelectorAll<SVGElement>(".tracos [style]").forEach((el) => {
+    const i = Number(el.style.getPropertyValue("--i"));
+    if (i > maior) maior = i;
+  });
+  return maior * 9 + 1100;
 }
 
 export function Hero({ lojas }: { lojas: Loja[] }) {
@@ -41,17 +27,12 @@ export function Hero({ lojas }: { lojas: Loja[] }) {
   const [destaque, setDestaque] = useState<number | null>(null);
   const [entrando, setEntrando] = useState(false);
   const secao = useRef<HTMLElement>(null);
-  const pausado = useRef(false);
-  pausado.current = foco !== null;
 
-  // As lojas se revezam na fachada e no texto, no desktop e no celular.
-  // Pausa com o mouse numa arcada, com a aba escondida ou com a hero fora da tela.
+  // As lojas se revezam sozinhas, no desktop e no celular, a partir do fim do desenho.
+  // O hover numa arcada só sobrepõe o que aparece; o revezamento continua por trás.
+  // Pausa com a aba escondida ou com a hero fora da tela; parado com movimento reduzido.
   useEffect(() => {
     const reduz = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduz) {
-      setDestaque(0);
-      return;
-    }
     let visivel = true;
     const io = new IntersectionObserver(([e]) => {
       visivel = e.isIntersecting;
@@ -61,11 +42,12 @@ export function Hero({ lojas }: { lojas: Loja[] }) {
     let intervalo = 0;
     const comeco = window.setTimeout(() => {
       setDestaque(0);
+      if (reduz) return;
       intervalo = window.setInterval(() => {
-        if (pausado.current || document.hidden || !visivel) return;
+        if (document.hidden || !visivel) return;
         setDestaque((d) => ((d ?? -1) + 1) % lojas.length);
       }, INTERVALO);
-    }, FIM_DO_DESENHO);
+    }, fimDoDesenho(secao.current));
 
     return () => {
       clearTimeout(comeco);
@@ -75,13 +57,11 @@ export function Hero({ lojas }: { lojas: Loja[] }) {
   }, [lojas.length]);
 
   const entrar = () => {
-    const alvo = document.getElementById("lojas");
-    if (!alvo) return;
     setEntrando(true);
-    // As folhas da porta terminam de abrir antes de a página deslizar.
+    // As folhas da porta terminam de abrir; então a lista de lojas sobe por cima da tela.
     window.setTimeout(() => {
-      deslizarAte(alvo);
-      window.setTimeout(() => setEntrando(false), 1200);
+      irPara("lojas");
+      window.setTimeout(() => setEntrando(false), 900);
     }, 280);
   };
 
@@ -110,13 +90,13 @@ export function Hero({ lojas }: { lojas: Loja[] }) {
       </div>
 
       <div className="hero-rodape">
-        <div className="hero-esq">
-          <p className="hero-resumo">{site.resumo}</p>
-          <p className="hero-status">
-            {site.status}
-            {site.abertura ? `. ${site.abertura}` : ""}
-          </p>
-        </div>
+        {/* Esquerda: o lugar. Direita: a loja da vez. Mesma forma dos dois lados. */}
+        <p className="hero-esq">
+          <span className="hero-foco-nome">{site.lugar}</span>
+          <span className="hero-lado-sub">
+            {site.vizinhanca}, {site.abertura || site.status.toLowerCase()}
+          </span>
+        </p>
 
         <p className="hero-lado" aria-hidden="true">
           {lado ? (

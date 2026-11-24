@@ -352,15 +352,10 @@ svg {
   margin-top: var(--s3);
 }
 
-.hero-resumo {
-  font-size: 0.9375rem;
-  max-width: 34ch;
-}
-
-.hero-status {
-  margin-top: 0.35rem;
-  font-size: 0.8125rem;
-  color: var(--tinta-2);
+.hero-esq {
+  display: grid;
+  justify-items: start;
+  min-height: 3.4rem;
 }
 
 /* À direita, alinhado pela direita: a loja da vez (ou a arcada sob o mouse). */
@@ -462,21 +457,23 @@ svg {
 
 
 @media (max-width: 720px) {
+  /* No celular também lado a lado: o lugar à esquerda, a loja da vez à direita. */
   .hero-rodape {
-    flex-direction: column;
-    gap: var(--s1);
-  }
-  /* No celular, a loja da vez vem logo abaixo da fachada, antes do resumo. */
-  .hero-lado {
-    order: -1;
-    justify-items: start;
-    text-align: left;
-    min-height: 3.2rem;
-    margin-bottom: var(--s2);
+    gap: var(--s2);
   }
 
-  .hero-lado-troca {
-    justify-items: start;
+  .hero-esq,
+  .hero-lado {
+    flex: 1 1 0;
+    min-height: 3rem;
+  }
+
+  .hero-foco-nome {
+    font-size: 1.3rem;
+  }
+
+  .hero-lado-sub {
+    font-size: 0.75rem;
   }
 }
 
@@ -704,34 +701,40 @@ svg {
 /* O Pátio -------------------------------------------------------------- */
 
 .patio {
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  column-gap: var(--s3);
-  row-gap: var(--s5);
   padding: var(--s7) var(--margem);
   background: var(--verde);
   color: var(--sobre-verde);
 }
 
 .patio-frase {
-  grid-column: 1 / 8;
-  grid-row: 1;
-  font-size: clamp(2.25rem, 5.2vw, 4.75rem);
-  line-height: 1.08;
-  max-width: 16ch;
+  font-size: clamp(2.5rem, 6vw, 5.5rem);
+  line-height: 1.04;
+  max-width: 18ch;
 }
 
-.patio-texto {
-  grid-column: 9 / 13;
-  grid-row: 1;
-  align-self: end;
-  max-width: 40ch;
+/* Dois blocos de texto em colunas iguais, alinhados à grade de 12 colunas do site. */
+.patio-colunas {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  column-gap: var(--s3);
+  row-gap: var(--s3);
+  margin-top: var(--s5);
+  padding-top: var(--s4);
+  border-top: 1px solid rgb(238 229 213 / 0.25);
+  font-size: 1.1875rem;
+  line-height: 1.55;
+}
+
+.patio-colunas p:first-child {
+  grid-column: 1 / 6;
+}
+
+.patio-colunas p:last-child {
+  grid-column: 7 / 12;
 }
 
 .patio-locacao {
   margin-top: var(--s4);
-  padding-top: var(--s3);
-  border-top: 1px solid rgb(238 229 213 / 0.25);
 }
 
 .patio .contato a {
@@ -739,10 +742,9 @@ svg {
 }
 
 @media (max-width: 900px) {
-  .patio-frase,
-  .patio-texto {
+  .patio-colunas p:first-child,
+  .patio-colunas p:last-child {
     grid-column: 1 / -1;
-    grid-row: auto;
   }
 }
 
@@ -1119,5 +1121,83 @@ svg {
 
   body:has(.hero) .marca {
     visibility: hidden;
+  }
+}
+
+/* Ida para uma seção da home: a seção de destino sobe por cima da tela atual,
+   que recua e escurece um pouco. Só vale durante esse salto (classe vt-cobrir). */
+html.vt-cobrir [style*="view-transition-name"] {
+  view-transition-name: none !important;
+}
+
+html.vt-cobrir::view-transition-old(root) {
+  animation: vt-recuar 760ms var(--saida) both;
+}
+
+html.vt-cobrir::view-transition-new(root) {
+  animation: vt-subir 760ms var(--saida) both;
+}
+
+@keyframes vt-subir {
+  from {
+    transform: translateY(100%);
+  }
+}
+
+@keyframes vt-recuar {
+  to {
+    transform: scale(0.96);
+    opacity: 0.5;
+  }
+}
+
+/* Abertura do logo da hero: o filete se estende do centro, os losangos giram
+   para o lugar nas pontas e as palavras chegam ao filete, de cima e de baixo. */
+@media (prefers-reduced-motion: no-preference) {
+  .hero-lockup .logo-filete {
+    transform-box: fill-box;
+    transform-origin: 50% 50%;
+    animation: logo-filete 900ms var(--saida) both;
+  }
+
+  .hero-lockup .logo-losangos path {
+    transform-box: fill-box;
+    transform-origin: 50% 50%;
+    animation: logo-losango 600ms var(--saida) 650ms both;
+  }
+
+  .hero-lockup .logo-topo {
+    animation: logo-descer 1000ms var(--saida) 250ms both;
+  }
+
+  .hero-lockup .logo-base {
+    animation: logo-subir-base 1000ms var(--saida) 350ms both;
+  }
+}
+
+@keyframes logo-filete {
+  from {
+    transform: scaleX(0);
+  }
+}
+
+@keyframes logo-losango {
+  from {
+    opacity: 0;
+    transform: scale(0.2) rotate(-90deg);
+  }
+}
+
+@keyframes logo-descer {
+  from {
+    opacity: 0;
+    transform: translateY(-90px);
+  }
+}
+
+@keyframes logo-subir-base {
+  from {
+    opacity: 0;
+    transform: translateY(90px);
   }
 }

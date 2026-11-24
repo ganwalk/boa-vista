@@ -3,7 +3,12 @@ import { Hero } from "@/components/Hero";
 import { Indice } from "@/components/Indice";
 import { Vitrines } from "@/components/Vitrines";
 import { lojas } from "@/content/lojas";
-import { ficha, site } from "@/content/site";
+import { ficha } from "@/content/site";
+
+// Número por extenso no começo da frase ("Seis lojas…", não "6 lojas…").
+const porExtenso = (n: number) =>
+  ["Nenhuma", "Uma", "Duas", "Três", "Quatro", "Cinco", "Seis", "Sete", "Oito", "Nove", "Dez"][n] ??
+  String(n);
 
 export default function Home() {
   const temEspacoLivre = lojas.some((l) => l.disponivel);
@@ -14,23 +19,29 @@ export default function Home() {
       <Vitrines lojas={lojas} />
       <Indice lojas={lojas} />
 
+      {/* O Pátio: título numa linha larga e, embaixo, dois blocos de texto do mesmo peso,
+          um sobre o dia a dia e outro sobre o projeto. */}
       <section id="o-patio" className="patio" aria-labelledby="patio-titulo">
         <h2 id="patio-titulo" className="patio-frase">
-          Lojas, serviços e gastronomia para quem mora nos Jardins.
+          Um pátio no meio dos condomínios Jardins.
         </h2>
-        <div className="patio-texto">
+        <div className="patio-colunas">
           <p>
-            O {site.nome} está em obra numa região de {site.cidade} cercada por
-            condomínios residenciais. O projeto arquitetônico, da Nuanza Arq &amp;
-            Interiores, segue a linha clássica. A ideia é que o morador resolva o dia, almoce e encontre os vizinhos sem atravessar a cidade.
+            {porExtenso(lojas.length)} lojas no térreo, entre padaria, restaurante, joalheria,
+            empório, perfumaria e floricultura. Dá para resolver a semana, almoçar
+            e encontrar os vizinhos sem atravessar Goiânia.
           </p>
-          {temEspacoLivre && (
-            <div className="patio-locacao">
-              <p>Ainda há espaços disponíveis para locação.</p>
-              <Contato assunto="aluguel de um espaço no Pátio Boa Vista" />
-            </div>
-          )}
+          <p>
+            O projeto arquitetônico é da Nuanza Arq &amp; Interiores, com paisagismo
+            de Fernanda Simão. A obra está em andamento.
+          </p>
         </div>
+        {temEspacoLivre && (
+          <div className="patio-locacao">
+            <p>Ainda há espaços disponíveis para locação.</p>
+            <Contato assunto="aluguel de um espaço no Pátio Boa Vista" />
+          </div>
+        )}
       </section>
 
       <section id="ficha" className="ficha" aria-labelledby="ficha-titulo">
