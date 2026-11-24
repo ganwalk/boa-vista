@@ -22,7 +22,11 @@ type Props = {
   lojas: Loja[];
   // Quantas arcadas de loja já estão abertas pela rolagem (celular), da esquerda para a direita.
   abertas: number;
-  onFoco: (loja: Loja | null) => void;
+  // Loja em destaque no revezamento automático (ordem na lista), ou null.
+  destaque: number | null;
+  onFoco: (alvo: Loja | "entrada" | null) => void;
+  // Clique na porta central: leva até a lista de todas as lojas.
+  onEntrar: () => void;
 };
 
 // Foto da loja em tamanho pequeno, servida pelo otimizador do Next.
@@ -33,7 +37,7 @@ const miniatura = (loja: Loja) => {
   return `/_next/image?url=${encodeURIComponent(src)}&w=640&q=75`;
 };
 
-export function Facade({ lojas, abertas, onFoco }: Props) {
+export function Facade({ lojas, abertas, destaque, onFoco, onEntrar }: Props) {
   const [ativo, setAtivo] = useState<number | null>(null);
   const meio = Math.floor(lojas.length / 2);
   const baias = lojas.length + 1;
@@ -49,9 +53,9 @@ export function Facade({ lojas, abertas, onFoco }: Props) {
   let ordem = 0;
   const n = () => ({ style: { ["--i" as string]: ordem++ } });
 
-  const marcar = (i: number | null, loja: Loja | null) => {
+  const marcar = (i: number | null, alvo: Loja | "entrada" | null) => {
     setAtivo(i);
-    onFoco(loja);
+    onFoco(alvo);
   };
 
   return (
@@ -66,6 +70,13 @@ export function Facade({ lojas, abertas, onFoco }: Props) {
           <stop offset="0%" stopColor="var(--luz-1)" />
           <stop offset="55%" stopColor="var(--luz-2)" />
           <stop offset="100%" stopColor="var(--luz-3)" />
+        </radialGradient>
+        {/* Interior visto pela porta central aberta: luz quente ao fundo. */}
+        <radialGradient id="interior" cx="50%" cy="85%" r="80%">
+          <stop offset="0%" stopColor="#f3d39a" />
+          <stop offset="35%" stopColor="#b98a4e" />
+          <stop offset="75%" stopColor="#2b2a22" />
+          <stop offset="100%" stopColor="#141a17" />
         </radialGradient>
       </defs>
 
@@ -128,9 +139,25 @@ export function Facade({ lojas, abertas, onFoco }: Props) {
 
         const ordemLoja = item.entrada ? -1 : i < meio ? i : i - 1;
         const foto = item.entrada ? null : miniatura(item.loja);
-        const aberta = ordemLoja >= 0 && ordemLoja < abertas;
+        const aberta = ordemLoja >= 0 && (ordemLoja < abertas || ordemLoja === destaque);
 
-        const desenho = (
+        const bandeira = `M ${cx - r} ${nasce} A ${r} ${r} 0 0 1 ${cx + r} ${nasce} Z`;
+        const altoFolha = FLOOR - nasce;
+
+        const desenho = item.entrada ? (
+          <>
+            {/* Porta central: interior iluminado atrás de duas folhas que se abrem. */}
+            <path className="vao-interior" d={vao} fill="url(#interior)" />
+            <path className="vao-bandeira" d={bandeira} fill="url(#luz)" />
+            <g className="tracos">
+              <path pathLength={1} {...n()} d={vao} />
+              <path pathLength={1} {...n()} d={arquivolta} />
+              <line pathLength={1} {...n()} x1={cx - r} y1={nasce} x2={cx + r} y2={nasce} />
+              <rect className="folha folha--esq" pathLength={1} {...n()} x={cx - r} y={nasce} width={r} height={altoFolha} />
+              <rect className="folha folha--dir" pathLength={1} {...n()} x={cx} y={nasce} width={r} height={altoFolha} />
+            </g>
+          </>
+        ) : (
           <>
             {foto ? (
               <>
@@ -180,9 +207,13 @@ export function Facade({ lojas, abertas, onFoco }: Props) {
               className="arco entrada"
               data-ativo={ativo === i}
               aria-label="Entrada: ver todas as lojas"
-              onMouseEnter={() => marcar(i, null)}
+              onClick={(e) => {
+                e.preventDefault();
+                onEntrar();
+              }}
+              onMouseEnter={() => marcar(i, "entrada")}
               onMouseLeave={() => marcar(null, null)}
-              onFocus={() => marcar(i, null)}
+              onFocus={() => marcar(i, "entrada")}
               onBlur={() => marcar(null, null)}
             >
               {alvo}

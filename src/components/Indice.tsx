@@ -72,7 +72,7 @@ export function Indice({ lojas }: { lojas: Loja[] }) {
       </div>
 
       <div className="indice-conteudo">
-        <h2 id="indice-titulo" className="secao-titulo">
+        <h2 id="indice-titulo" className="secao-titulo" tabIndex={-1}>
           Todas as lojas
         </h2>
         <ul className="indice-lista" onMouseLeave={() => setAtual(null)}>

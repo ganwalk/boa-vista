@@ -230,7 +230,7 @@ svg {
 .hero {
   /* A fachada (proporção 2,19:1) encolhe para a hero caber inteira na tela;
      o rodapé usa a mesma largura para alinhar com o desenho. */
-  --largura-fachada: min(100%, 1180px, calc((100svh - 24rem) * 2.19));
+  --largura-fachada: min(100%, 1180px, calc((100svh - 26rem) * 2.19));
   min-height: 100svh;
   display: grid;
   grid-template-rows: 1fr auto auto;
@@ -335,23 +335,43 @@ svg {
   max-width: 34ch;
 }
 
+.hero-status {
+  margin-top: 0.35rem;
+  font-size: 0.8125rem;
+  color: var(--tinta-2);
+}
+
+/* À direita, alinhado pela direita: a loja da vez (ou a arcada sob o mouse). */
 .hero-lado {
   display: grid;
   justify-items: end;
   text-align: right;
-  font-size: 0.9375rem;
-  min-height: 3.2rem;
+  min-height: 3.4rem;
+}
+
+.hero-lado-troca {
+  display: grid;
+  justify-items: end;
+  animation: surgir 420ms var(--saida);
 }
 
 .hero-foco-nome {
   font-family: var(--f-display);
-  font-size: 1.5rem;
+  font-size: 1.75rem;
   line-height: 1.1;
 }
 
 .hero-lado-sub {
+  margin-top: 0.15rem;
   font-size: 0.8125rem;
   color: var(--tinta-2);
+}
+
+@keyframes surgir {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
 }
 
 /* Foto da loja dentro da arcada. */
@@ -361,8 +381,54 @@ svg {
   transform-box: fill-box;
   transform-origin: 50% 100%;
   transition:
-    opacity var(--medio) var(--saida),
-    transform 600ms var(--saida);
+    opacity 600ms var(--saida),
+    transform 900ms var(--saida);
+}
+
+/* Porta central: as duas folhas giram para dentro e mostram o interior iluminado. */
+.facade .tracos .folha {
+  fill: var(--papel);
+  transform-box: fill-box;
+  transition: transform 560ms var(--saida);
+}
+
+.folha--esq {
+  transform-origin: 0% 50%;
+}
+
+.folha--dir {
+  transform-origin: 100% 50%;
+}
+
+.vao-interior,
+.vao-bandeira {
+  opacity: 0;
+  transition: opacity 560ms var(--saida);
+}
+
+.entrada:hover .folha,
+.entrada[data-ativo="true"] .folha {
+  transform: scaleX(0.16);
+}
+
+.entrada:hover .vao-interior,
+.entrada[data-ativo="true"] .vao-interior,
+.hero[data-entrando="true"] .vao-interior {
+  opacity: 1;
+}
+
+.entrada:hover .vao-bandeira,
+.entrada[data-ativo="true"] .vao-bandeira,
+.hero[data-entrando="true"] .vao-bandeira {
+  opacity: 0.85;
+}
+
+.hero[data-entrando="true"] .folha {
+  transform: scaleX(0.02);
+}
+
+.secao-titulo:focus {
+  outline: none;
 }
 
 .arco:hover .vao-foto,
@@ -379,9 +445,7 @@ svg {
     gap: var(--s1);
   }
   .hero-lado {
-    justify-items: start;
-    text-align: left;
-    min-height: 0;
+    display: none;
   }
 }
 
