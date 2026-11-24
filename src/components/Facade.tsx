@@ -99,13 +99,34 @@ export function Facade({ lojas, destaque, onFoco, onEntrar }: Props) {
 
       {/* Cornija */}
       <g className="tracos">
-        <line pathLength={1} {...n()} x1={M - 20} y1={40} x2={W - M + 20} y2={40} />
-        <line pathLength={1} {...n()} x1={M - 12} y1={52} x2={W - M + 12} y2={52} />
-        <line pathLength={1} {...n()} x1={M} y1={TOP} x2={W - M} y2={TOP} />
-        <line pathLength={1} {...n()} x1={M - 8} y1={BAND - 8} x2={W - M + 8} y2={BAND - 8} />
-        <line pathLength={1} {...n()} x1={M - 8} y1={BAND + 4} x2={W - M + 8} y2={BAND + 4} />
-        <line pathLength={1} {...n()} x1={M - 20} y1={FLOOR} x2={W - M + 20} y2={FLOOR} />
-        <line pathLength={1} {...n()} x1={M - 28} y1={FLOOR + 14} x2={W - M + 28} y2={FLOOR + 14} />
+        {/* Topo e base espelhados: uma linha que fecha as pilastras externas (x ± 9)
+            e duas linhas escalonadas para fora, a 12 e 24 unidades. */}
+        {[0, 1, 2].map((k) => (
+          <line
+            key={`t${k}`}
+            pathLength={1}
+            {...n()}
+            x1={M - 9 - k * 11}
+            y1={TOP - k * 12}
+            x2={W - M + 9 + k * 11}
+            y2={TOP - k * 12}
+          />
+        ))}
+        {[0, 1, 2].map((k) => (
+          <line
+            key={`b${k}`}
+            pathLength={1}
+            {...n()}
+            x1={M - 9 - k * 11}
+            y1={FLOOR + k * 12}
+            x2={W - M + 9 + k * 11}
+            y2={FLOOR + k * 12}
+          />
+        ))}
+
+        {/* Faixa entre os pavimentos, até a face externa das pilastras */}
+        <line pathLength={1} {...n()} x1={M - 9} y1={BAND - 6} x2={W - M + 9} y2={BAND - 6} />
+        <line pathLength={1} {...n()} x1={M - 9} y1={BAND + 6} x2={W - M + 9} y2={BAND + 6} />
 
         {/* Pilastras */}
         {Array.from({ length: baias + 1 }, (_, i) => {
@@ -139,7 +160,8 @@ export function Facade({ lojas, destaque, onFoco, onEntrar }: Props) {
               />
               <line pathLength={1} {...n()} x1={cx} y1={topo} x2={cx} y2={base} />
               <line pathLength={1} {...n()} x1={cx - jr} y1={nasce} x2={cx + jr} y2={nasce} />
-              <line pathLength={1} {...n()} x1={cx - jr - 8} y1={226} x2={cx + jr + 8} y2={226} />
+              {/* Peitoril na base da janela, como a soleira das portas no térreo */}
+              <line pathLength={1} {...n()} x1={cx - jr - 8} y1={base} x2={cx + jr + 8} y2={base} />
             </g>
           );
         })}
@@ -210,9 +232,9 @@ export function Facade({ lojas, destaque, onFoco, onEntrar }: Props) {
           <rect
             className="alvo"
             x={M + i * bw + 9}
-            y={BAND + 4}
+            y={BAND + 6}
             width={bw - 18}
-            height={FLOOR - BAND - 4}
+            height={FLOOR - BAND - 6}
           />
         );
 
