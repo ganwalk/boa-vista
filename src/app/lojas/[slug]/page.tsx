@@ -73,7 +73,14 @@ export default async function PaginaLoja({ params }: Params) {
             {detalhes.map((d) => (
               <div key={d.k}>
                 <dt>{d.k}</dt>
-                <dd>{d.href ? <a href={d.href}>{d.v}</a> : d.v}</dd>
+                <dd>
+                  {d.href ? (
+                    <a href={d.href}>{d.v}</a>
+                  ) : (
+                    // Cada período do horário numa linha que não se parte ("Ter a dom, 12h às 15h").
+                    d.v.split(". ").map((parte) => <span key={parte}>{parte}</span>)
+                  )}
+                </dd>
               </div>
             ))}
           </dl>

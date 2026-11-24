@@ -859,6 +859,16 @@ svg {
   color: var(--tinta-2);
 }
 
+.loja-detalhes dd {
+  display: grid;
+  justify-items: end;
+  text-align: right;
+}
+
+.loja-detalhes dd span {
+  white-space: nowrap;
+}
+
 @media (max-width: 900px) {
   .loja-descricao,
   .loja-detalhes {
@@ -983,4 +993,33 @@ svg {
 .proxima-nome,
 .hero-foco-nome {
   text-wrap: balance;
+}
+
+/* Hero no celular: sem forçar a altura da tela; logo, fachada e texto em sequência,
+   com o mesmo respiro entre eles. O logo do cabeçalho some na home para não repetir o da hero. */
+@media (max-width: 720px) {
+  .hero {
+    min-height: auto;
+    grid-template-rows: auto;
+    padding-top: 5.5rem;
+    padding-bottom: var(--s2);
+  }
+
+  /* Mesmo respiro acima e abaixo da fachada. */
+  .hero-lockup {
+    width: min(60vw, 15rem);
+    margin-block: 0 var(--s4);
+  }
+
+  .hero-rodape {
+    margin-top: var(--s4);
+  }
+
+  .vitrines {
+    padding-top: var(--s5);
+  }
+
+  body:has(.hero) .marca {
+    visibility: hidden;
+  }
 }

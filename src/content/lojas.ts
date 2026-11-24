@@ -51,7 +51,8 @@ export type Loja = {
   disponivel?: boolean;
 };
 
-// ATENÇÃO: as seis lojas abaixo são fictícias, criadas para ilustrar o site.
+// ATENÇÃO: as seis lojas abaixo são fictícias (nomes, textos, horários, telefones e perfis),
+// criadas para ilustrar o site.
 // As fotos são do Unsplash (licença livre; fontes em public/lojas/FONTES.md).
 // Troque pelos locatários reais antes de publicar.
 
@@ -72,6 +73,8 @@ export const lojas: Loja[] = [
     descricao:
       "Pão de fermentação natural feito com farinha moída em Goiás. A primeira fornada sai às 6h30 e o pão de queijo, às 7h. O café é coado na hora, com grãos do sul de Minas.",
     horario: "Todos os dias, 6h30 às 20h",
+    instagram: "fornocerrado",
+    telefone: "(62) 3241-1180",
     capa: img("/lojas/forno-cerrado/capa.jpg", "Pães de fermentação natural em prateleiras de metal", 1333, 2000),
     galeria: [
       img("/lojas/forno-cerrado/01.jpg", "Croissants e pães de chocolate na vitrine", 2000, 1333),
@@ -87,6 +90,8 @@ export const lojas: Loja[] = [
     descricao:
       "Cozinha goiana de fogão a lenha servida em pratos para dividir: empadão, arroz com pequi, galinhada, pamonha frita. Almoço de terça a domingo e jantar de quinta a sábado.",
     horario: "Ter a dom, 12h às 15h. Qui a sáb, 19h às 23h",
+    instagram: "casapequi.gyn",
+    telefone: "(62) 3241-2205",
     capa: img("/lojas/casa-pequi/capa.jpg", "Salão com paredes terracota e poltronas de couro", 2000, 1333),
     galeria: [
       img("/lojas/casa-pequi/01.jpg", "Mesa posta junto à janela, à noite", 1500, 2000),
@@ -102,6 +107,8 @@ export const lojas: Loja[] = [
     descricao:
       "Peças em ouro 18k e pedras brasileiras, feitas na oficina no fundo da loja. Alianças e ajustes sob encomenda, com prazo de três semanas.",
     horario: "Seg a sáb, 10h às 19h",
+    instagram: "atelielume",
+    telefone: "(62) 99812-4471",
     capa: img("/lojas/atelie-lume/capa.jpg", "Colares em um busto sobre fundo laranja, com sombra de folhas", 1334, 2000),
     galeria: [
       img("/lojas/atelie-lume/01.jpg", "Colar de brilhantes em um busto preto", 1333, 2000),
@@ -117,6 +124,8 @@ export const lojas: Loja[] = [
     descricao:
       "Duzentos rótulos na parede e dez abertos em taça a cada semana. Queijos da Canastra e embutidos curados para acompanhar, na mesa comprida sob o arco.",
     horario: "Ter a sáb, 16h às 23h",
+    instagram: "adegaserradourada",
+    telefone: "(62) 3241-3390",
     capa: img("/lojas/adega-serra-dourada/capa.jpg", "Mesa comprida à luz de velas sob um arco", 1600, 2000),
     galeria: [
       img("/lojas/adega-serra-dourada/01.jpg", "Taças de vinho tinto e tábua de queijos", 2000, 1333),
@@ -132,6 +141,8 @@ export const lojas: Loja[] = [
     descricao:
       "Perfumes de autor e óleos essenciais vendidos a granel. Os frascos voltam para recarga, e a primeira prova é feita no papel, no balcão.",
     horario: "Seg a sáb, 10h às 20h",
+    instagram: "boticaipe",
+    telefone: "(62) 99604-2218",
     capa: img("/lojas/botica-ipe/capa.jpg", "Frascos de perfume sobre uma mesa espelhada", 2000, 1125),
     galeria: [
       img("/lojas/botica-ipe/01.jpg", "Estantes escuras com frascos iluminados", 1333, 2000),
@@ -147,6 +158,8 @@ export const lojas: Loja[] = [
     descricao:
       "Flores de corte que chegam de Holambra às terças e sextas. Os arranjos são montados na hora e entregues nos condomínios Jardins no mesmo dia.",
     horario: "Seg a sáb, 8h às 19h. Dom, 8h às 12h",
+    instagram: "flordebaru",
+    telefone: "(62) 99177-5063",
     capa: img("/lojas/flor-de-baru/capa.jpg", "Buquê de peônias brancas", 1338, 2000),
     galeria: [
       img("/lojas/flor-de-baru/01.jpg", "Floricultura iluminada ao entardecer", 2000, 1333),

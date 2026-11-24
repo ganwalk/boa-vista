@@ -73,7 +73,7 @@ Nenhum elemento entra com fade-and-slide ao rolar, nada usa bounce/spring, não 
 
 ## 5. Pendências (não inventei estes dados)
 
-- **As seis lojas no ar são fictícias** (Forno Cerrado, Casa Pequi, Ateliê Lume, Adega Serra Dourada, Botica Ipê, Flor de Baru), assim como seus textos e horários. Servem para mostrar o site com conteúdo. Pelo critério "Be honest" do no-red-flags, não podem ir para produção: troque pelos locatários reais em `src/content/lojas.ts`.
+- **As seis lojas no ar são fictícias** (Forno Cerrado, Casa Pequi, Ateliê Lume, Adega Serra Dourada, Botica Ipê, Flor de Baru), assim como seus textos, horários, telefones e perfis de Instagram. O e-mail, o WhatsApp e o Instagram do Pátio, em `src/content/site.ts`, também são fictícios. Servem para mostrar o site com conteúdo. Pelo critério "Be honest" do no-red-flags, não podem ir para produção: troque pelos locatários reais em `src/content/lojas.ts`.
 - As fotos são do Unsplash, com licença livre para uso comercial. As fontes estão em `public/lojas/FONTES.md`. Ficaram de fora fotos com marca visível (Gucci, Lush, Diptyque e uma padaria com o nome na vitrine).
 - Loja sem `capa` cadastrada continua aparecendo com a prancha da marca no lugar da foto.
 - Endereço, data de abertura e contatos (`src/content/site.ts`). Campos vazios não aparecem.

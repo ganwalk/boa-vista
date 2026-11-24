@@ -14,9 +14,10 @@ export const site = {
   endereco: "",
   contato: {
     // Para locação dos espaços enquanto a galeria está em obra.
-    email: "",
-    whatsapp: "", // só números com DDI, ex.: 5562999990000
-    instagram: "", // só o usuário, sem @
+    // FICTÍCIOS, para ilustrar. Troque pelos contatos reais antes de publicar.
+    email: "contato@patioboavista.com.br",
+    whatsapp: "5562981540270", // só números com DDI
+    instagram: "patioboavista", // só o usuário, sem @
   },
   url: "https://patioboavista.com.br",
 } as const;

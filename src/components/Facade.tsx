@@ -90,16 +90,28 @@ export function Facade({ lojas, abertas, onFoco }: Props) {
           );
         })}
 
-        {/* Janelas do pavimento superior */}
+        {/* Janelas do pavimento superior, em arco como as arcadas do térreo */}
         {itens.map((_, i) => {
           const cx = M + i * bw + bw / 2;
-          const jw = bw * 0.42;
+          const jr = (bw * 0.42) / 2;
+          const topo = 104;
+          const base = 248;
+          const nasce = topo + jr;
           return (
             <g key={`j${i}`}>
-              <rect pathLength={1} {...n()} x={cx - jw / 2} y={108} width={jw} height={140} />
-              <line pathLength={1} {...n()} x1={cx} y1={108} x2={cx} y2={248} />
-              <line pathLength={1} {...n()} x1={cx - jw / 2} y1={150} x2={cx + jw / 2} y2={150} />
-              <line pathLength={1} {...n()} x1={cx - jw / 2 - 8} y1={226} x2={cx + jw / 2 + 8} y2={226} />
+              <path
+                pathLength={1}
+                {...n()}
+                d={`M ${cx - jr} ${base} V ${nasce} A ${jr} ${jr} 0 0 1 ${cx + jr} ${nasce} V ${base} Z`}
+              />
+              <path
+                pathLength={1}
+                {...n()}
+                d={`M ${cx - jr - 8} ${nasce} A ${jr + 8} ${jr + 8} 0 0 1 ${cx + jr + 8} ${nasce}`}
+              />
+              <line pathLength={1} {...n()} x1={cx} y1={topo} x2={cx} y2={base} />
+              <line pathLength={1} {...n()} x1={cx - jr} y1={nasce} x2={cx + jr} y2={nasce} />
+              <line pathLength={1} {...n()} x1={cx - jr - 8} y1={226} x2={cx + jr + 8} y2={226} />
             </g>
           );
         })}
