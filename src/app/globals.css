@@ -467,21 +467,28 @@ svg {
 
 
 @media (max-width: 720px) {
-  /* No celular: a loja da vez logo abaixo da fachada, depois o resumo. */
+  /* No celular: tudo centralizado, como o logo e a fachada acima.
+     A loja da vez logo abaixo da fachada, depois o resumo. */
   .hero-rodape {
     flex-direction: column;
-    gap: var(--s2);
+    align-items: center;
+    gap: var(--s3);
+    text-align: center;
   }
 
   .hero-lado {
     order: -1;
-    justify-items: start;
-    text-align: left;
+    justify-items: center;
+    text-align: center;
     min-height: 3rem;
   }
 
   .hero-lado-troca {
-    justify-items: start;
+    justify-items: center;
+  }
+
+  .hero-esq {
+    justify-items: center;
   }
 }
 
