@@ -38,21 +38,21 @@ export function Hero({ lojas }: { lojas: Loja[] }) {
       </div>
 
       <div className="hero-rodape">
-        <p className="hero-resumo">
-          {site.resumo} {site.status}
-          {site.abertura ? `. ${site.abertura}.` : "."}
-        </p>
-        <p className="hero-foco" aria-hidden="true">
+        <p className="hero-resumo">{site.resumo}</p>
+        {/* À direita: a situação da obra, que dá lugar à loja da arcada em foco. */}
+        <p className="hero-lado" aria-live="off">
           {mostrada ? (
             <>
               <span className="hero-foco-nome">{mostrada.nome}</span>
-              <span className="hero-foco-cat">{mostrada.categoria}</span>
+              <span className="hero-lado-sub">{mostrada.categoria}</span>
             </>
           ) : (
-            " "
+            <>
+              <span>{site.status}</span>
+              {site.abertura ? <span className="hero-lado-sub">{site.abertura}</span> : null}
+            </>
           )}
         </p>
-        <span aria-hidden="true" />
       </div>
     </section>
   );
