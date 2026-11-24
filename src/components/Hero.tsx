@@ -6,36 +6,35 @@ import { site } from "@/content/site";
 import { Facade } from "./Facade";
 import { Lockup } from "./Lockup";
 
-// Hora atual em Goiânia (mesmo fuso de Brasília).
-function horaEmGoiania() {
-  const h = new Intl.DateTimeFormat("pt-BR", {
-    hour: "numeric",
-    hourCycle: "h23",
-    timeZone: "America/Sao_Paulo",
-  }).format(new Date());
-  return Number(h);
-}
-
 export function Hero({ lojas }: { lojas: Loja[] }) {
-  const [aceso, setAceso] = useState(false);
-  const [pronto, setPronto] = useState(false);
-  const [foco, setFoco] = useState<string | null>(null);
+  const [foco, setFoco] = useState<Loja | null>(null);
+  const [abertas, setAbertas] = useState(0);
 
-  // Depois das 18h em Goiânia a fachada já abre com as luzes acesas.
+  // Sem mouse não há hover. Para não amarrar tudo à rolagem no celular,
+  // as arcadas se abrem sozinhas uma vez, logo depois que o desenho da fachada termina.
   useEffect(() => {
-    const h = horaEmGoiania();
-    setAceso(h >= 18 || h < 6);
-    const t = requestAnimationFrame(() => setPronto(true));
-    return () => cancelAnimationFrame(t);
-  }, []);
+    const semHover = window.matchMedia("(hover: none), (pointer: coarse)").matches;
+    if (!semHover) return;
+    const reduz = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduz) {
+      setAbertas(lojas.length);
+      return;
+    }
+    const timers = lojas.map((_, i) =>
+      window.setTimeout(() => setAbertas(i + 1), 1500 + i * 160),
+    );
+    return () => timers.forEach(clearTimeout);
+  }, [lojas.length]);
+
+  const mostrada = foco;
 
   return (
-    <section className="hero" data-aceso={aceso} data-pronto={pronto}>
+    <section className="hero">
       <h1 className="sr-only">{site.nome}</h1>
       <Lockup className="hero-lockup" />
 
       <div className="hero-fachada">
-        <Facade lojas={lojas} aceso={aceso} onFoco={setFoco} />
+        <Facade lojas={lojas} abertas={abertas} onFoco={setFoco} />
       </div>
 
       <div className="hero-rodape">
@@ -44,16 +43,16 @@ export function Hero({ lojas }: { lojas: Loja[] }) {
           {site.abertura ? `. ${site.abertura}.` : "."}
         </p>
         <p className="hero-foco" aria-hidden="true">
-          {foco ?? " "}
+          {mostrada ? (
+            <>
+              <span className="hero-foco-nome">{mostrada.nome}</span>
+              <span className="hero-foco-cat">{mostrada.categoria}</span>
+            </>
+          ) : (
+            " "
+          )}
         </p>
-        <button
-          type="button"
-          className="interruptor"
-          aria-pressed={aceso}
-          onClick={() => setAceso((v) => !v)}
-        >
-          {aceso ? "Apagar as luzes" : "Acender as luzes"}
-        </button>
+        <span aria-hidden="true" />
       </div>
     </section>
   );

@@ -5,6 +5,8 @@ import { useState } from "react";
 import type { Loja } from "@/content/lojas";
 
 // Desenho de linha da fachada: uma arcada por loja e a entrada no meio.
+// Cada arcada é uma janela para a loja: com o mouse (ou foco) a foto aparece dentro do arco;
+// no celular, as arcadas se abrem uma a uma conforme a página rola.
 // É um estudo provisório. Quando a Nuanza liberar a elevação oficial,
 // troque as coordenadas abaixo pelo desenho do projeto.
 
@@ -18,11 +20,20 @@ const FLOOR = 600; // soleira
 
 type Props = {
   lojas: Loja[];
-  aceso: boolean;
-  onFoco: (nome: string | null) => void;
+  // Quantas arcadas de loja já estão abertas pela rolagem (celular), da esquerda para a direita.
+  abertas: number;
+  onFoco: (loja: Loja | null) => void;
 };
 
-export function Facade({ lojas, aceso, onFoco }: Props) {
+// Foto da loja em tamanho pequeno, servida pelo otimizador do Next.
+const miniatura = (loja: Loja) => {
+  const c = loja.capa;
+  if (!c) return null;
+  const src = c.tipo === "video" ? c.poster : c.src;
+  return `/_next/image?url=${encodeURIComponent(src)}&w=640&q=75`;
+};
+
+export function Facade({ lojas, abertas, onFoco }: Props) {
   const [ativo, setAtivo] = useState<number | null>(null);
   const meio = Math.floor(lojas.length / 2);
   const baias = lojas.length + 1;
@@ -38,9 +49,9 @@ export function Facade({ lojas, aceso, onFoco }: Props) {
   let ordem = 0;
   const n = () => ({ style: { ["--i" as string]: ordem++ } });
 
-  const marcar = (i: number | null, nome: string | null) => {
+  const marcar = (i: number | null, loja: Loja | null) => {
     setAtivo(i);
-    onFoco(nome);
+    onFoco(loja);
   };
 
   return (
@@ -49,7 +60,6 @@ export function Facade({ lojas, aceso, onFoco }: Props) {
       viewBox={`0 0 ${W} ${H}`}
       role="group"
       aria-label="Fachada do Pátio Boa Vista. Cada arcada leva a uma loja."
-      data-aceso={aceso}
     >
       <defs>
         <radialGradient id="luz" cx="50%" cy="78%" r="75%">
@@ -104,9 +114,33 @@ export function Facade({ lojas, aceso, onFoco }: Props) {
         const vao = `M ${cx - r} ${FLOOR} V ${nasce} A ${r} ${r} 0 0 1 ${cx + r} ${nasce} V ${FLOOR} Z`;
         const arquivolta = `M ${cx - r - 12} ${nasce} A ${r + 12} ${r + 12} 0 0 1 ${cx + r + 12} ${nasce}`;
 
+        const ordemLoja = item.entrada ? -1 : i < meio ? i : i - 1;
+        const foto = item.entrada ? null : miniatura(item.loja);
+        const aberta = ordemLoja >= 0 && ordemLoja < abertas;
+
         const desenho = (
           <>
-            <path className="vao-luz" d={vao} fill="url(#luz)" />
+            {foto ? (
+              <>
+                <clipPath id={`arco-${i}`}>
+                  <path d={vao} />
+                </clipPath>
+                <g clipPath={`url(#arco-${i})`}>
+                  <image
+                    className="vao-foto"
+                    data-aberta={aberta}
+                    href={foto}
+                    x={cx - r}
+                    y={nasce - r}
+                    width={r * 2}
+                    height={FLOOR - nasce + r}
+                    preserveAspectRatio="xMidYMid slice"
+                  />
+                </g>
+              </>
+            ) : (
+              <path className="vao-luz" d={vao} fill="url(#luz)" />
+            )}
             <g className="tracos">
               <path pathLength={1} {...n()} d={vao} />
               <path pathLength={1} {...n()} d={arquivolta} />
@@ -134,9 +168,9 @@ export function Facade({ lojas, aceso, onFoco }: Props) {
               className="arco entrada"
               data-ativo={ativo === i}
               aria-label="Entrada: ver todas as lojas"
-              onMouseEnter={() => marcar(i, "Entrada")}
+              onMouseEnter={() => marcar(i, null)}
               onMouseLeave={() => marcar(null, null)}
-              onFocus={() => marcar(i, "Entrada")}
+              onFocus={() => marcar(i, null)}
               onBlur={() => marcar(null, null)}
             >
               {alvo}
@@ -153,9 +187,9 @@ export function Facade({ lojas, aceso, onFoco }: Props) {
             className="arco"
             data-ativo={ativo === i}
             aria-label={`${loja.nome}, ${loja.categoria}`}
-            onMouseEnter={() => marcar(i, loja.nome)}
+            onMouseEnter={() => marcar(i, loja)}
             onMouseLeave={() => marcar(null, null)}
-            onFocus={() => marcar(i, loja.nome)}
+            onFocus={() => marcar(i, loja)}
             onBlur={() => marcar(null, null)}
           >
             {alvo}

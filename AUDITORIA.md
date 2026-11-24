@@ -36,13 +36,16 @@ Elementos da marca usados de forma pontual: a assinatura com filete e losangos (
 
 | Elemento | Responde a | Observação |
 |---|---|---|
-| Fachada que se desenha ao abrir | Carregamento | Único momento coreografado do site (regra "one orchestrated moment") |
-| Arcada acende ao passar o mouse e leva à loja | Hover / foco / clique | Cada arcada é um link real, com foco visível pelo teclado |
-| "Acender as luzes" | Clique | Depois das 18h em Goiânia a fachada já abre acesa |
-| Vitrines que andam para o lado | Rolagem | No celular e com `prefers-reduced-motion` vira rolagem horizontal comum |
-| Imagem que segue o cursor no índice | Mouse | Desligada em telas de toque |
+| Fachada que se desenha ao abrir | Carregamento | Único momento coreografado do site |
+| Foto da loja dentro da arcada | Hover / foco (desktop) | A arcada vira uma janela para a loja; clique leva à página dela |
+| Arcadas que se abrem sozinhas | Fim do desenho (celular) | Acontece uma vez, logo depois da fachada se formar; não depende de rolagem |
+| Vitrines que andam para o lado | Rolagem (desktop) | No celular é arrastar com o dedo; com `prefers-reduced-motion`, rolagem horizontal comum |
+| Foto de fundo no índice de lojas | Hover (desktop) / rolagem (celular) | O texto muda para creme sobre um véu escuro. No celular é a única interação ligada à rolagem |
 | Capa que "voa" da vitrine para a página da loja | Navegação | View Transitions; desligada com `prefers-reduced-motion` |
 | Vídeos | Entrar na tela | Mudos, em loop, pausam fora da tela; ficam no pôster com `prefers-reduced-motion` |
+
+Removido: o botão "Acender/apagar as luzes" e o modo noturno da fachada.
+Textos corridos usam `text-wrap: pretty` e títulos e nomes usam `balance`, para evitar palavra sozinha na última linha.
 
 Nenhum elemento entra com fade-and-slide ao rolar, nada usa bounce/spring, não há `transition: all`.
 

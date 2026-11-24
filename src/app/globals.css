@@ -82,9 +82,16 @@ ul {
   list-style: none;
 }
 
+p,
+dd,
+li {
+  text-wrap: pretty;
+}
+
 h1,
 h2,
 h3 {
+  text-wrap: balance;
   font-family: var(--f-display);
   font-weight: 500;
   line-height: 1.05;
@@ -153,10 +160,6 @@ svg {
   transition: color var(--medio) var(--saida);
 }
 
-body:has(.hero[data-aceso="true"]) .cabecalho {
-  color: var(--sobre-verde);
-}
-
 .marca {
   display: block;
   padding-block: 0.5rem;
@@ -167,10 +170,6 @@ body:has(.hero[data-aceso="true"]) .cabecalho {
 .marca .logo {
   height: 2.5rem;
   width: auto;
-}
-
-body:has(.hero[data-aceso="true"]) .marca {
-  color: var(--ouro);
 }
 
 .cabecalho ul {
@@ -241,15 +240,6 @@ body:has(.hero[data-aceso="true"]) .marca {
     color var(--medio) var(--saida);
 }
 
-.hero[data-aceso="true"] {
-  background: var(--verde);
-  color: var(--sobre-verde);
-}
-
-.hero[data-aceso="true"] .lockup {
-  color: var(--ouro);
-}
-
 .hero-lockup {
   width: clamp(14rem, min(36vw, 42svh), 26rem);
   align-self: center;
@@ -279,17 +269,9 @@ body:has(.hero[data-aceso="true"]) .marca {
     stroke var(--medio) var(--saida);
 }
 
-.facade[data-aceso="true"] .tracos rect {
-  fill: rgb(232 185 109 / 0.22);
-}
-
 .vao-luz {
   opacity: 0;
   transition: opacity var(--medio) var(--saida);
-}
-
-.facade[data-aceso="true"] .vao-luz {
-  opacity: 0.7;
 }
 
 .arco:hover .vao-luz,
@@ -349,38 +331,48 @@ body:has(.hero[data-aceso="true"]) .marca {
 }
 
 .hero-foco {
+  display: grid;
+  justify-items: center;
+  min-height: 3.2rem;
+  text-align: center;
+}
+
+.hero-foco-nome {
   font-family: var(--f-display);
   font-size: 1.5rem;
-  text-align: center;
-  min-width: 10ch;
+  line-height: 1.2;
 }
 
-.interruptor {
-  justify-self: end;
-  min-height: 44px;
-  padding: 0.6rem 1.1rem;
-  font: 500 0.875rem/1 var(--f-corpo);
-  color: inherit;
-  background: transparent;
-  border: 1px solid currentColor;
-  border-radius: 2px;
-  cursor: pointer;
-  transition: background-color var(--rapido) var(--saida);
+.hero-foco-cat {
+  font-size: 0.8125rem;
+  color: var(--tinta-2);
 }
 
-.interruptor:hover {
-  background: rgb(127 127 127 / 0.12);
+/* Foto da loja dentro da arcada. */
+.vao-foto {
+  opacity: 0;
+  transform: scale(1.08);
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  transition:
+    opacity var(--medio) var(--saida),
+    transform 600ms var(--saida);
 }
 
-.interruptor:active {
-  background: rgb(127 127 127 / 0.22);
+.arco:hover .vao-foto,
+.arco[data-ativo="true"] .vao-foto,
+.vao-foto[data-aberta="true"] {
+  opacity: 1;
+  transform: scale(1);
 }
+
 
 @media (max-width: 720px) {
   .hero-rodape {
-    grid-template-columns: 1fr auto;
+    grid-template-columns: 1fr;
   }
-  .hero-foco {
+  .hero-foco,
+  .hero-rodape > span {
     display: none;
   }
 }
@@ -495,6 +487,46 @@ body:has(.hero[data-aceso="true"]) .marca {
 /* Índice de lojas ------------------------------------------------------ */
 
 .indice {
+  position: relative;
+  background: var(--papel);
+  transition: color var(--medio) var(--saida);
+}
+
+/* Fundo fotográfico: preso à tela enquanto a lista passa por cima,
+   sem nunca sair dos limites da seção. */
+.indice-fundo {
+  position: absolute;
+  inset: 0;
+  overflow: clip;
+  pointer-events: none;
+}
+
+.indice-palco {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+}
+
+.midia.indice-foto {
+  position: absolute;
+  inset: 0;
+  transition: opacity 420ms var(--saida);
+}
+
+.indice-veu {
+  position: absolute;
+  inset: 0;
+  background: rgb(14 24 21 / 0.58);
+  opacity: 0;
+  transition: opacity 420ms var(--saida);
+}
+
+.indice[data-ativo="true"] .indice-veu {
+  opacity: 1;
+}
+
+.indice-conteudo {
+  position: relative;
   padding: var(--s7) var(--margem) var(--s6);
 }
 
@@ -508,6 +540,7 @@ body:has(.hero[data-aceso="true"]) .marca {
 
 .indice-lista li {
   border-top: 1px solid var(--fio);
+  transition: border-color var(--medio) var(--saida);
 }
 
 .indice-item {
@@ -517,7 +550,7 @@ body:has(.hero[data-aceso="true"]) .marca {
   gap: var(--s3);
   padding-block: clamp(0.75rem, 1.6vw, 1.5rem);
   text-decoration: none;
-  transition: color var(--rapido) var(--saida);
+  transition: color var(--medio) var(--saida);
 }
 
 .indice-nome {
@@ -530,36 +563,38 @@ body:has(.hero[data-aceso="true"]) .marca {
   font-size: 0.875rem;
   color: var(--tinta-2);
   text-align: right;
+  transition: color var(--medio) var(--saida);
 }
 
-@media (hover: hover) and (pointer: fine) {
-  .indice-lista:hover .indice-item:not(:hover) {
-    color: rgb(23 36 31 / 0.3);
+/* Com foto no fundo, o texto passa para creme. */
+.indice[data-ativo="true"] {
+  color: var(--sobre-verde);
+}
+
+.indice[data-ativo="true"] .indice-lista,
+.indice[data-ativo="true"] .indice-lista li {
+  border-color: rgb(238 229 213 / 0.22);
+}
+
+.indice[data-ativo="true"] li:not([data-atual="true"]) .indice-item {
+  color: rgb(238 229 213 / 0.42);
+}
+
+.indice[data-ativo="true"] .indice-cat {
+  color: var(--sobre-verde-2);
+}
+
+.indice[data-ativo="true"] li:not([data-atual="true"]) .indice-cat {
+  color: rgb(184 194 185 / 0.5);
+}
+
+@media (max-width: 720px) {
+  .indice-item {
+    flex-direction: column;
+    gap: 0.15rem;
   }
-}
-
-.cursor-midia {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 5;
-  width: 280px;
-  aspect-ratio: 4 / 5;
-  margin: -175px 0 0 -140px;
-  pointer-events: none;
-}
-
-.cursor-quadro {
-  position: absolute;
-  inset: 0;
-  transition:
-    opacity var(--rapido) var(--saida),
-    clip-path var(--medio) var(--saida);
-}
-
-@media (hover: none), (pointer: coarse) {
-  .cursor-midia {
-    display: none;
+  .indice-cat {
+    text-align: left;
   }
 }
 
@@ -928,8 +963,16 @@ body:has(.hero[data-aceso="true"]) .marca {
 .indice-nome,
 .vitrine-nome,
 .proxima-nome,
-.hero-foco,
+.hero-foco-nome,
 .ficha-item dd,
 .prancha-num {
   font-weight: 500;
+}
+
+/* Nomes grandes quebram em linhas equilibradas, sem palavra sozinha na última. */
+.indice-nome,
+.vitrine-nome,
+.proxima-nome,
+.hero-foco-nome {
+  text-wrap: balance;
 }
