@@ -48,6 +48,10 @@
 
 html {
   -webkit-text-size-adjust: 100%;
+  /* A Bodoni Moda é variável: em tamanho grande o eixo óptico afina demais as hastes.
+     Travar em 11 mantém o contraste próximo ao da Cabrito Didone do logo. */
+  font-optical-sizing: none;
+  font-variation-settings: "opsz" 11;
   scroll-behavior: smooth;
 }
 
@@ -82,7 +86,7 @@ h1,
 h2,
 h3 {
   font-family: var(--f-display);
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1.05;
 }
 
@@ -154,12 +158,19 @@ body:has(.hero[data-aceso="true"]) .cabecalho {
 }
 
 .marca {
-  font-family: var(--f-display);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  font-size: 0.95rem;
-  text-decoration: none;
-  padding-block: 0.75rem;
+  display: block;
+  padding-block: 0.5rem;
+  color: var(--marca);
+  transition: color var(--medio) var(--saida);
+}
+
+.marca .logo {
+  height: 2.5rem;
+  width: auto;
+}
+
+body:has(.hero[data-aceso="true"]) .marca {
+  color: var(--ouro);
 }
 
 .cabecalho ul {
@@ -188,31 +199,13 @@ body:has(.hero[data-aceso="true"]) .cabecalho {
 /* Assinatura ----------------------------------------------------------- */
 
 .lockup {
-  display: inline-grid;
-  justify-items: center;
-  font-family: var(--f-display);
-  text-transform: uppercase;
   color: var(--marca);
-  line-height: 1;
 }
 
-.lockup-a {
-  font-size: clamp(3rem, min(8vw, 11svh), 6.5rem);
-  letter-spacing: 0.03em;
-}
-
-.lockup-b {
-  font-size: clamp(1.85rem, min(5vw, 6.8svh), 4rem);
-  letter-spacing: 0.03em;
-  margin-top: 0.12em;
-}
-
-.lockup-filete {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  width: calc(100% + 2.5rem);
-  margin-top: 0.35rem;
+.lockup .logo {
+  display: block;
+  width: 100%;
+  height: auto;
 }
 
 .lockup-fio {
@@ -221,25 +214,16 @@ body:has(.hero[data-aceso="true"]) .cabecalho {
   background: currentColor;
 }
 
-.losango {
-  width: 0.55rem;
-  height: 0.55rem;
-  background: currentColor;
-  transform: rotate(45deg);
-  flex: none;
-}
-
 .lockup--h {
   display: flex;
   align-items: center;
-  gap: 0.9rem;
+  gap: clamp(1rem, 3vw, 2.5rem);
   width: 100%;
 }
 
-.lockup--h .lockup-nome {
-  font-size: clamp(1.25rem, 3vw, 2.25rem);
-  letter-spacing: 0.04em;
-  white-space: nowrap;
+.lockup--h .logo {
+  width: clamp(7rem, 14vw, 11rem);
+  flex: none;
 }
 
 /* Hero: fachada -------------------------------------------------------- */
@@ -267,6 +251,7 @@ body:has(.hero[data-aceso="true"]) .cabecalho {
 }
 
 .hero-lockup {
+  width: clamp(14rem, min(36vw, 42svh), 26rem);
   align-self: center;
   margin-block: var(--s3) var(--s4);
 }
@@ -937,4 +922,14 @@ body:has(.hero[data-aceso="true"]) .cabecalho {
   *::after {
     transition-duration: 0ms !important;
   }
+}
+
+/* Peso médio em todo texto na Didone, como a Cabrito Didone NorMed do manual. */
+.indice-nome,
+.vitrine-nome,
+.proxima-nome,
+.hero-foco,
+.ficha-item dd,
+.prancha-num {
+  font-weight: 500;
 }

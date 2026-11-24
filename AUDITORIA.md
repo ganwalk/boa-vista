@@ -20,7 +20,8 @@ As imagens geradas por IA do manual foram ignoradas, como pedido. Do manual entr
 - **Paleta:** a amostra verde está rotulada "Pantone BLACK C", igual à preta. Precisa do código Pantone correto. No site usei o verde da placa (`#1C3B34`).
 - **Dourado 871 C** é metálico e não tem hex fiel na tela. Usei `#C29B62` (o da placa) sobre o verde, e `#85653A` para filetes sobre o papel, porque o dourado claro some sobre o fundo claro.
 - **Tipografia:** a Cabrito Didone é paga. O site usa a Bodoni Moda (OFL, também Didone) até a licença chegar. A troca fica em `src/app/layout.tsx`. Vale confirmar se o logotipo foi mesmo desenhado com a Cabrito: os acentos e as serifas do logo nas pranchas não parecem iguais à amostra da página 11.
-- **Logo:** não recebi o vetor. O site monta a assinatura em HTML (`src/components/Lockup.tsx`). Quando o SVG oficial existir, ele substitui esse componente.
+- **Logo:** vetorizado a partir da placa de obra, onde está escrito em Cabrito Didone NorMed. O texto foi convertido em contornos (`src/components/Logo.tsx`), então o logo usa a fonte real da marca sem precisar servi-la como fonte. Isso também confirma que o logo é Cabrito Didone.
+- **Contraste da Bodoni Moda:** em tamanhos grandes, o eixo de tamanho óptico da fonte variável afinava demais as hastes. O tamanho óptico ficou travado em 11, com peso 500, para chegar perto do contraste da Cabrito. A Cabrito embutida nos PDFs não foi usada como fonte web porque é um subconjunto de uma fonte paga.
 - **"Cream default"** (no-red-flags): o papel calcário + serifa poderia cair nesse padrão. O que separa é que a paleta vem da marca (482 C, verde e 871 C), não há manchete em itálico nem acento terracota, e o verde é a única superfície escura.
 
 ## 2. Direção do site
