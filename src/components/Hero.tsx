@@ -90,13 +90,13 @@ export function Hero({ lojas }: { lojas: Loja[] }) {
       </div>
 
       <div className="hero-rodape">
-        {/* Esquerda: o lugar. Direita: a loja da vez. Mesma forma dos dois lados. */}
-        <p className="hero-esq">
-          <span className="hero-foco-nome">{site.lugar}</span>
-          <span className="hero-lado-sub">
-            {site.vizinhanca}, {site.abertura || site.status.toLowerCase()}
-          </span>
-        </p>
+        <div className="hero-esq">
+          <p className="hero-resumo">{site.resumo}</p>
+          <p className="hero-status">
+            {site.status}
+            {site.abertura ? `. ${site.abertura}` : ""}
+          </p>
+        </div>
 
         <p className="hero-lado" aria-hidden="true">
           {lado ? (
