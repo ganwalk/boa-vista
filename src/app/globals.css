@@ -616,10 +616,13 @@ svg {
   pointer-events: none;
 }
 
+/* Altura máxima da tela (lvh): quando as barras do navegador do celular se recolhem
+   durante a rolagem, a foto continua cobrindo a tela inteira, sem faixa clara embaixo. */
 .indice-palco {
   position: sticky;
   top: 0;
-  height: 100svh;
+  height: 100vh;
+  height: 100lvh;
 }
 
 .midia.indice-foto {

@@ -14,6 +14,18 @@ export function Indice({ lojas }: { lojas: Loja[] }) {
   const [atual, setAtual] = useState<number | null>(null);
   const secao = useRef<HTMLElement>(null);
   const linhas = useRef<(HTMLLIElement | null)[]>([]);
+  const saida = useRef(0);
+
+  // Com mouse, a foto aparece só sobre o nome da loja. Uma pequena tolerância ao sair
+  // evita que o fundo pisque quando o mouse passa de um nome para o outro.
+  const entrarNome = (i: number) => {
+    clearTimeout(saida.current);
+    setAtual(i);
+  };
+  const sairNome = () => {
+    clearTimeout(saida.current);
+    saida.current = window.setTimeout(() => setAtual(null), 140);
+  };
 
   useEffect(() => {
     const semHover = window.matchMedia("(hover: none), (pointer: coarse)");
@@ -75,7 +87,7 @@ export function Indice({ lojas }: { lojas: Loja[] }) {
         <h2 id="indice-titulo" className="secao-titulo" tabIndex={-1}>
           Todas as lojas
         </h2>
-        <ul className="indice-lista" onMouseLeave={() => setAtual(null)}>
+        <ul className="indice-lista">
           {lojas.map((loja, i) => (
             <li
               key={loja.slug}
@@ -87,10 +99,16 @@ export function Indice({ lojas }: { lojas: Loja[] }) {
               <Link
                 href={`/lojas/${loja.slug}`}
                 className="indice-item"
-                onMouseEnter={() => setAtual(i)}
-                onFocus={() => setAtual(i)}
+                onFocus={() => entrarNome(i)}
+                onBlur={sairNome}
               >
-                <span className="indice-nome">{loja.nome}</span>
+                <span
+                  className="indice-nome"
+                  onMouseEnter={() => entrarNome(i)}
+                  onMouseLeave={sairNome}
+                >
+                  {loja.nome}
+                </span>
                 <span className="indice-cat">{loja.categoria}</span>
               </Link>
             </li>
