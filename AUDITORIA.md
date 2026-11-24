@@ -37,8 +37,9 @@ Elementos da marca usados de forma pontual: a assinatura com filete e losangos (
 | Elemento | Responde a | Observação |
 |---|---|---|
 | Fachada que se desenha ao abrir | Carregamento | Único momento coreografado do site |
+| Lojas em revezamento na fachada | Tempo (desktop e celular) | Uma loja a cada 3,4 s: a foto acende na arcada e o nome aparece ao lado. Pausa com o mouse numa arcada, com a aba escondida ou com a hero fora da tela; parado com `prefers-reduced-motion` |
 | Foto da loja dentro da arcada | Hover / foco (desktop) | A arcada vira uma janela para a loja; clique leva à página dela |
-| Arcadas que se abrem sozinhas | Fim do desenho (celular) | Acontece uma vez, logo depois da fachada se formar; não depende de rolagem |
+| Porta central | Hover / clique | As folhas se abrem e mostram o interior iluminado; o clique desliza a página até a lista de lojas |
 | Vitrines que andam para o lado | Rolagem (desktop) | No celular é arrastar com o dedo; com `prefers-reduced-motion`, rolagem horizontal comum |
 | Foto de fundo no índice de lojas | Hover (desktop) / rolagem (celular) | O texto muda para creme sobre um véu escuro. No celular é a única interação ligada à rolagem |
 | Capa que "voa" da vitrine para a página da loja | Navegação | View Transitions; desligada com `prefers-reduced-motion` |

@@ -1,12 +1,12 @@
 "use client";
 
 import { Link } from "next-view-transitions";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { Loja } from "@/content/lojas";
 
 // Desenho de linha da fachada: uma arcada por loja e a entrada no meio.
 // Cada arcada é uma janela para a loja: com o mouse (ou foco) a foto aparece dentro do arco;
-// no celular, as arcadas se abrem uma a uma conforme a página rola.
+// sem mouse, as lojas se revezam sozinhas, uma arcada de cada vez.
 // É um estudo provisório. Quando a Nuanza liberar a elevação oficial,
 // troque as coordenadas abaixo pelo desenho do projeto.
 
@@ -20,8 +20,6 @@ const FLOOR = 600; // soleira
 
 type Props = {
   lojas: Loja[];
-  // Quantas arcadas de loja já estão abertas pela rolagem (celular), da esquerda para a direita.
-  abertas: number;
   // Loja em destaque no revezamento automático (ordem na lista), ou null.
   destaque: number | null;
   onFoco: (alvo: Loja | "entrada" | null) => void;
@@ -37,8 +35,26 @@ const miniatura = (loja: Loja) => {
   return `/_next/image?url=${encodeURIComponent(src)}&w=640&q=75`;
 };
 
-export function Facade({ lojas, abertas, destaque, onFoco, onEntrar }: Props) {
+export function Facade({ lojas, destaque, onFoco, onEntrar }: Props) {
   const [ativo, setAtivo] = useState<number | null>(null);
+  const svg = useRef<SVGSVGElement>(null);
+
+  // Espessura do traço em pixels reais, igual em todas as linhas e em qualquer tamanho de tela:
+  // 1px no desktop e 0,8px no celular. Convertida para as unidades do desenho conforme a largura.
+  useEffect(() => {
+    const el = svg.current;
+    if (!el) return;
+    const ajustar = () => {
+      const largura = el.getBoundingClientRect().width;
+      if (!largura) return;
+      const px = largura < 600 ? 0.8 : 1;
+      el.style.setProperty("--traco", ((px * W) / largura).toFixed(3));
+    };
+    ajustar();
+    const ro = new ResizeObserver(ajustar);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
   const meio = Math.floor(lojas.length / 2);
   const baias = lojas.length + 1;
   const bw = (W - M * 2) / baias;
@@ -60,6 +76,7 @@ export function Facade({ lojas, abertas, destaque, onFoco, onEntrar }: Props) {
 
   return (
     <svg
+      ref={svg}
       className="facade"
       viewBox={`0 0 ${W} ${H}`}
       role="group"
@@ -139,7 +156,7 @@ export function Facade({ lojas, abertas, destaque, onFoco, onEntrar }: Props) {
 
         const ordemLoja = item.entrada ? -1 : i < meio ? i : i - 1;
         const foto = item.entrada ? null : miniatura(item.loja);
-        const aberta = ordemLoja >= 0 && (ordemLoja < abertas || ordemLoja === destaque);
+        const aberta = ordemLoja >= 0 && ordemLoja === destaque;
 
         const bandeira = `M ${cx - r} ${nasce} A ${r} ${r} 0 0 1 ${cx + r} ${nasce} Z`;
         const altoFolha = FLOOR - nasce;

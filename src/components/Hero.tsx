@@ -38,31 +38,16 @@ function deslizarAte(alvo: HTMLElement) {
 
 export function Hero({ lojas }: { lojas: Loja[] }) {
   const [foco, setFoco] = useState<Loja | "entrada" | null>(null);
-  const [abertas, setAbertas] = useState(0);
   const [destaque, setDestaque] = useState<number | null>(null);
   const [entrando, setEntrando] = useState(false);
   const secao = useRef<HTMLElement>(null);
   const pausado = useRef(false);
   pausado.current = foco !== null;
 
+  // As lojas se revezam na fachada e no texto, no desktop e no celular.
+  // Pausa com o mouse numa arcada, com a aba escondida ou com a hero fora da tela.
   useEffect(() => {
-    const comHover = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
     const reduz = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-    // Celular: as arcadas se abrem sozinhas uma vez, logo depois do desenho.
-    if (!comHover) {
-      if (reduz) {
-        setAbertas(lojas.length);
-        return;
-      }
-      const timers = lojas.map((_, i) =>
-        window.setTimeout(() => setAbertas(i + 1), FIM_DO_DESENHO + i * 160),
-      );
-      return () => timers.forEach(clearTimeout);
-    }
-
-    // Desktop: as lojas se revezam na fachada e no texto à direita.
-    // Pausa com o mouse numa arcada, com a aba escondida ou com a hero fora da tela.
     if (reduz) {
       setDestaque(0);
       return;
@@ -118,7 +103,6 @@ export function Hero({ lojas }: { lojas: Loja[] }) {
       <div className="hero-fachada">
         <Facade
           lojas={lojas}
-          abertas={abertas}
           destaque={foco === null ? destaque : null}
           onFoco={setFoco}
           onEntrar={entrar}
