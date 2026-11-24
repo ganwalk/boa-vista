@@ -524,7 +524,7 @@ svg {
 .indice-veu {
   position: absolute;
   inset: 0;
-  background: rgb(14 24 21 / 0.58);
+  background: rgb(0 0 0 / 0.72);
   opacity: 0;
   transition: opacity 420ms var(--saida);
 }
