@@ -21,9 +21,8 @@ export default function Home() {
         <div className="patio-texto">
           <p>
             O {site.nome} está em obra numa região de {site.cidade} cercada por
-            condomínios residenciais. O projeto arquitetônico, da Nuanza Arq &amp;
-            Interiores, segue a linha clássica. A ideia é que o morador resolva o
-            dia, almoce e encontre os vizinhos sem atravessar a cidade.
+            condomínios residenciais. O projeto arquitetônico, da Nuanza Arq &amp;
+            Interiores, segue a linha clássica. A ideia é que o morador resolva o dia, almoce e encontre os vizinhos sem atravessar a cidade.
           </p>
           {temEspacoLivre && (
             <div className="patio-locacao">

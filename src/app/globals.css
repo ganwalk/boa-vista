@@ -714,14 +714,16 @@ svg {
 }
 
 .patio-frase {
-  grid-column: 1 / 9;
+  grid-column: 1 / 8;
+  grid-row: 1;
   font-size: clamp(2.25rem, 5.2vw, 4.75rem);
   line-height: 1.08;
   max-width: 16ch;
 }
 
 .patio-texto {
-  grid-column: 8 / 13;
+  grid-column: 9 / 13;
+  grid-row: 1;
   align-self: end;
   max-width: 40ch;
 }
@@ -740,6 +742,7 @@ svg {
   .patio-frase,
   .patio-texto {
     grid-column: 1 / -1;
+    grid-row: auto;
   }
 }
 
