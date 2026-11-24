@@ -69,7 +69,9 @@ Nenhum elemento entra com fade-and-slide ao rolar, nada usa bounce/spring, não 
 
 ## 5. Pendências (não inventei estes dados)
 
-- Lojas reais: nomes, categorias, fotos e vídeos (`src/content/lojas.ts`). Enquanto não chegam, cada espaço aparece como "Espaço 01…06, disponível para locação", com uma prancha da marca no lugar da foto.
+- **As seis lojas no ar são fictícias** (Forno Cerrado, Casa Pequi, Ateliê Lume, Adega Serra Dourada, Botica Ipê, Flor de Baru), assim como seus textos e horários. Servem para mostrar o site com conteúdo. Pelo critério "Be honest" do no-red-flags, não podem ir para produção: troque pelos locatários reais em `src/content/lojas.ts`.
+- As fotos são do Unsplash, com licença livre para uso comercial. As fontes estão em `public/lojas/FONTES.md`. Ficaram de fora fotos com marca visível (Gucci, Lush, Diptyque e uma padaria com o nome na vitrine).
+- Loja sem `capa` cadastrada continua aparecendo com a prancha da marca no lugar da foto.
 - Endereço, data de abertura e contatos (`src/content/site.ts`). Campos vazios não aparecem.
 - Elevação oficial da fachada da Nuanza. O desenho atual é um estudo com arcadas (`src/components/Facade.tsx`) e precisa ser conferido com o projeto.
 - Código Pantone do verde, arquivo vetorial do logo e licença da Cabrito Didone.

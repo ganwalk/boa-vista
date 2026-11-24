@@ -850,18 +850,18 @@ body:has(.hero[data-aceso="true"]) .cabecalho {
   height: auto;
 }
 
-.galeria-item--1 {
-  width: min(100%, 58%);
+.galeria-item--esq {
+  width: min(100%, 46%);
 }
 
-.galeria-item--2 {
-  width: min(100%, 40%);
+.galeria-item--dir {
+  width: min(100%, 38%);
   margin-left: auto;
 }
 
 @media (max-width: 720px) {
-  .galeria-item--1,
-  .galeria-item--2 {
+  .galeria-item--esq,
+  .galeria-item--dir {
     width: 100%;
   }
 }

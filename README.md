@@ -13,6 +13,8 @@ npm run dev
 
 Importe o repositório na Vercel. Não há variáveis de ambiente; as configurações padrão do Next.js funcionam.
 
+> As lojas cadastradas hoje são fictícias, para ilustração. Fotos: Unsplash (ver `public/lojas/FONTES.md`).
+
 ## Onde editar
 
 | O quê | Arquivo |

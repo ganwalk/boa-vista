@@ -82,15 +82,20 @@ export default async function PaginaLoja({ params }: Params) {
 
       {galeria.length > 0 && (
         <section className="loja-galeria" aria-label={`Fotos de ${loja.nome}`}>
-          {galeria.map((m, i) => (
-            <Media
-              key={m.src}
-              midia={m}
-              loja={loja}
-              sizes={i % 3 === 0 ? "100vw" : "(min-width: 900px) 50vw, 100vw"}
-              className={`galeria-item galeria-item--${i % 3}`}
-            />
-          ))}
+          {galeria.map((m, i) => {
+            // Foto horizontal ocupa a largura toda; as verticais alternam de lado.
+            const deitada = m.tipo === "imagem" ? m.largura > m.altura : true;
+            const lado = i % 2 === 0 ? "esq" : "dir";
+            return (
+              <Media
+                key={m.src}
+                midia={m}
+                loja={loja}
+                sizes={deitada ? "100vw" : "(min-width: 720px) 45vw, 100vw"}
+                className={`galeria-item ${deitada ? "galeria-item--larga" : `galeria-item--${lado}`}`}
+              />
+            );
+          })}
         </section>
       )}
 
