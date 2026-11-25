@@ -104,3 +104,11 @@ Nenhum elemento entra com fade-and-slide ao rolar, nada usa bounce/spring, não 
   - **Linhas tracejadas em X** (corredor do Térreo, vazio do 1º pavimento): o destaque era picotado por elas. Esses ambientes agora são preenchidos considerando só as paredes contínuas.
   - **1º pavimento:** a sala fechada no meio do pavimento, com banheiro próprio, virou um ambiente separado ("Sala"); o restante é o "Salão".
 - **Os nomes, fora os escritos na prancha (D.M.L., Depósito), são uma leitura dos símbolos do desenho.** A lista está em `src/content/espacos.ts` e deve ser confirmada pela ARL.
+
+#### Auditoria dos demais pavimentos (Subsolo 2, Subsolo 1, 1º pavimento)
+
+- Subsolo 2: o hall em volta da escada e dos elevadores ganhou rótulo ("Hall"), e o "Portão da garagem" entrou como escrito na prancha.
+- Subsolo 1: a antecâmara dos banheiros passou a fazer parte de "Banheiros".
+- 1º pavimento: a "Sala" inclui o banheiro dela; os dois blocos de banheiros não têm mais cabines sem pintura.
+- Todos: sobreposições entre espaços vizinhos foram resolvidas a favor do menor (portas e cabines não ficam cobertas pelo corredor).
+- Ficam sem rótulo os banheiros privativos de cada sala (pequenos demais para destacar separadamente) e as faixas de parede entre as vagas e a contenção.
