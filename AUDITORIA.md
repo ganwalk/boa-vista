@@ -92,6 +92,13 @@ Nenhum elemento entra com fade-and-slide ao rolar, nada usa bounce/spring, não 
 
 ### Planta interativa
 
-- Cada espaço da planta responde ao hover (desktop), ao toque (celular) e ao Tab (teclado): o espaço fica em dourado claro e o nome com uma descrição curta aparece ao lado do seletor.
-- Os contornos dos espaços foram detectados nas plantas vetorizadas (paredes fechadas, vãos de porta selados) e conferidos à mão pavimento por pavimento.
-- **Os nomes são uma leitura dos símbolos do desenho, não vêm escritos na prancha**: vagas tracejadas → garagem/estacionamento; degraus → escada; louças → banheiros; salas com porta e banheiro → sala comercial; retângulo tracejado com X no 1º pavimento → vazio sobre o corredor. Espaços sem leitura segura ficaram sem rótulo. A lista está em `src/content/espacos.ts` e deve ser confirmada pela ARL antes da publicação.
+- Cada espaço responde ao hover (desktop), ao toque (celular) e ao Tab (teclado), com nome e descrição ao lado do seletor.
+- **Auditoria de posicionamento** (contornos projetados de volta sobre a imagem original do PDF): todos os espaços têm de 97 a 100% do contorno sobre paredes da prancha.
+- Correções feitas na auditoria:
+  - **Escadas:** nos quatro pavimentos, o contorno agora é só a caixa da escada, recortada pelas paredes azuis da prancha. Antes engolia ambientes vizinhos.
+  - **Depósitos:** no Subsolo 1 e no 1º pavimento há um "DEPÓSITO" sob a escada e outro ao lado dos elevadores, escritos na prancha. Antes estavam somados à escada e aos elevadores; agora são espaços próprios.
+  - **Subsolo 2:** "D.M.L." e "Depósito" adicionados como na prancha. A escada inclui o lance tracejado, que é a projeção do lance que desce.
+  - **Elevadores:** espaço próprio nos quatro pavimentos. No Térreo, "Hall" e "Escada" agora são separados.
+  - **Banheiros do Subsolo 1:** cobrem as cabines; antes cobriam só a antecâmara. Os banheiros na diagonal do 1º pavimento foram adicionados.
+  - **Áreas externas:** "Estacionamento", "Jardim" e "Escada externa" deixaram de ser interativos. Na prancha do Subsolo 2, a "escada externa" fica fora da linha azul do prédio, e as pranchas não deixam claro em que nível está o terreno.
+- **Os nomes, fora os escritos na prancha (D.M.L., Depósito), são uma leitura dos símbolos do desenho.** A lista está em `src/content/espacos.ts` e deve ser confirmada pela ARL.
