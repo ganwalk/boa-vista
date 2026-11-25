@@ -1354,3 +1354,88 @@ html.vt-cobrir::view-transition-new(root) {
     font-size: 1.25rem;
   }
 }
+
+/* Planta interativa: cada espaço é uma área sensível sobre o desenho. */
+.projeto-lateral {
+  position: sticky;
+  top: var(--s5);
+  display: grid;
+  gap: var(--s4);
+}
+
+.projeto-lateral .projeto-pavimentos {
+  position: static;
+}
+
+.projeto-legenda {
+  min-height: 7rem;
+}
+
+.projeto-legenda-nome {
+  font-family: var(--f-display);
+  font-weight: 500;
+  font-size: 1.5rem;
+  line-height: 1.15;
+}
+
+.projeto-legenda-desc {
+  margin-top: 0.4rem;
+  font-size: 0.9375rem;
+  color: var(--tinta-2);
+}
+
+.projeto-legenda-dica {
+  font-size: 0.875rem;
+  color: var(--tinta-2);
+}
+
+.so-toque {
+  display: none;
+}
+
+@media (hover: none), (pointer: coarse) {
+  .so-mouse {
+    display: none;
+  }
+  .so-toque {
+    display: inline;
+  }
+}
+
+.planta-espacos .espaco {
+  fill: rgb(194 155 98 / 0);
+  stroke: none;
+  cursor: pointer;
+  outline: none;
+  transition: fill var(--rapido) var(--saida);
+}
+
+.planta-espacos .espaco[data-ativo="true"] {
+  fill: rgb(194 155 98 / 0.28);
+}
+
+.planta-espacos .espaco:focus-visible {
+  stroke: var(--marca);
+  stroke-width: calc(var(--k, 1.5) * 2);
+}
+
+@media (max-width: 900px) {
+  .projeto-lateral {
+    position: static;
+    gap: var(--s2);
+  }
+
+  .projeto-legenda {
+    min-height: 5.5rem;
+  }
+
+  .projeto-legenda-nome {
+    font-size: 1.25rem;
+  }
+}
+
+/* O traço fica por cima das áreas sensíveis, mas deixa o mouse e o toque passarem. */
+.planta-terreno,
+.planta-pavimento {
+  pointer-events: none;
+}

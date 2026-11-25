@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { espacos } from "@/content/espacos";
 import { PLANTA_ALTURA, PLANTA_LARGURA, pavimentos, terreno } from "@/content/plantas";
 
 // Plantas do projeto da ARL, vetorizadas a partir da apresentação de agosto de 2026
@@ -12,6 +13,8 @@ const INICIAL = "terreo";
 export function Projeto() {
   const [slug, setSlug] = useState(INICIAL);
   const [visto, setVisto] = useState(false);
+  // Espaço em destaque: com mouse, o que está sob o cursor; com toque, o último tocado.
+  const [ativo, setAtivo] = useState<number | null>(null);
   const caixa = useRef<HTMLDivElement>(null);
 
   // Espessura do traço em pixels reais (1px), convertida para as unidades da planta.
@@ -46,6 +49,29 @@ export function Projeto() {
   }, []);
 
   const atual = pavimentos.find((p) => p.slug === slug) ?? pavimentos[0];
+  const lista_espacos = espacos[atual.slug] ?? [];
+  const espaco = ativo !== null ? lista_espacos[ativo] : null;
+
+  const trocar = (novo: string) => {
+    setSlug(novo);
+    setAtivo(null);
+  };
+
+  const legenda = (
+    <div className="projeto-legenda" aria-live="polite">
+      {espaco ? (
+        <>
+          <p className="projeto-legenda-nome">{espaco.nome}</p>
+          <p className="projeto-legenda-desc">{espaco.desc}</p>
+        </>
+      ) : (
+        <p className="projeto-legenda-dica">
+          <span className="so-mouse">Passe o mouse sobre a planta para ver cada espaço.</span>
+          <span className="so-toque">Toque num espaço da planta para ver o que é.</span>
+        </p>
+      )}
+    </div>
+  );
   const ordem = ["subsolo-2", "subsolo-1", "terreo", "primeiro"];
   const lista = ordem.map((s) => pavimentos.find((p) => p.slug === s)!).reverse();
 
@@ -62,19 +88,22 @@ export function Projeto() {
       </div>
 
       <div className="projeto-corpo">
+        <div className="projeto-lateral">
         <ul className="projeto-pavimentos" aria-label="Pavimentos">
           {lista.map((p) => (
             <li key={p.slug}>
               <button
                 type="button"
                 aria-pressed={p.slug === slug}
-                onClick={() => setSlug(p.slug)}
+                onClick={() => trocar(p.slug)}
               >
                 {p.nome}
               </button>
             </li>
           ))}
         </ul>
+        {legenda}
+        </div>
 
         <div ref={caixa} className="projeto-planta" data-visto={visto}>
           <svg
@@ -82,6 +111,37 @@ export function Projeto() {
             role="img"
             aria-label={`Planta do ${atual.nome} do Pátio Boa Vista`}
           >
+            <g
+              className="planta-espacos"
+              onPointerLeave={(ev) => {
+                if (ev.pointerType === "mouse") setAtivo(null);
+              }}
+            >
+              {lista_espacos.map((e, i) => (
+                <path
+                  key={`${atual.slug}-${i}`}
+                  d={e.d}
+                  className="espaco"
+                  data-ativo={ativo === i}
+                  role="button"
+                  tabIndex={0}
+                  aria-label={`${e.nome}: ${e.desc}`}
+                  onPointerEnter={(ev) => {
+                    // Só mouse de verdade: o toque seleciona pelo clique e não deve ser desfeito
+                    // pela saída de mouse que o navegador emula depois do toque.
+                    if (ev.pointerType === "mouse") setAtivo(i);
+                  }}
+                  onFocus={() => setAtivo(i)}
+                  onClick={() => setAtivo(i)}
+                  onKeyDown={(ev) => {
+                    if (ev.key === "Enter" || ev.key === " ") {
+                      ev.preventDefault();
+                      setAtivo(i);
+                    }
+                  }}
+                />
+              ))}
+            </g>
             <g className="planta-terreno">
               {terreno.map((d, i) => (
                 <path

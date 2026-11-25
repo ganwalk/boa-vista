@@ -89,3 +89,9 @@ Nenhum elemento entra com fade-and-slide ao rolar, nada usa bounce/spring, não 
 - Lote, vagas e rua são iguais nos quatro pavimentos e aparecem em traço claro; o prédio de cada pavimento, em traço escuro.
 - Scripts de vetorização e conferência ficaram fora do repositório; o resultado está em `src/content/plantas.ts`.
 - Divergência a confirmar: a placa de obra escreve "Andréa Rocha Lima"; a apresentação, "Andréia Rocha Lima".
+
+### Planta interativa
+
+- Cada espaço da planta responde ao hover (desktop), ao toque (celular) e ao Tab (teclado): o espaço fica em dourado claro e o nome com uma descrição curta aparece ao lado do seletor.
+- Os contornos dos espaços foram detectados nas plantas vetorizadas (paredes fechadas, vãos de porta selados) e conferidos à mão pavimento por pavimento.
+- **Os nomes são uma leitura dos símbolos do desenho, não vêm escritos na prancha**: vagas tracejadas → garagem/estacionamento; degraus → escada; louças → banheiros; salas com porta e banheiro → sala comercial; retângulo tracejado com X no 1º pavimento → vazio sobre o corredor. Espaços sem leitura segura ficaram sem rótulo. A lista está em `src/content/espacos.ts` e deve ser confirmada pela ARL antes da publicação.
