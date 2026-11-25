@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Contato } from "@/components/Contato";
 import { Hero } from "@/components/Hero";
 import { Indice } from "@/components/Indice";
@@ -5,11 +6,6 @@ import { Projeto } from "@/components/Projeto";
 import { Vitrines } from "@/components/Vitrines";
 import { lojas } from "@/content/lojas";
 import { ficha, regimeObra } from "@/content/site";
-
-// Número por extenso no começo da frase ("Seis lojas…", não "6 lojas…").
-const porExtenso = (n: number) =>
-  ["Nenhuma", "Uma", "Duas", "Três", "Quatro", "Cinco", "Seis", "Sete", "Oito", "Nove", "Dez"][n] ??
-  String(n);
 
 export default function Home() {
   const temEspacoLivre = lojas.some((l) => l.disponivel);
@@ -26,17 +22,26 @@ export default function Home() {
         <h2 id="patio-titulo" className="patio-frase">
           Um pátio no meio dos condomínios Jardins.
         </h2>
-        <div className="patio-colunas">
-          <p>
-            {porExtenso(lojas.length)} lojas no térreo, entre padaria, restaurante, joalheria,
-            empório, perfumaria e floricultura. Dá para resolver a semana, almoçar
-            e encontrar os vizinhos sem atravessar Goiânia.
-          </p>
-          <p>
-            O projeto arquitetônico é da Nuanza Arq &amp; Interiores, com paisagismo
-            de Fernanda Simão. A obra está em andamento.
-          </p>
-        </div>
+        {/* Texto aprovado pela cliente, mantido como enviado. */}
+        <p className="patio-texto">
+          O Pátio Boa Vista nasce com a proposta de ser mais do que um espaço de compras e
+          serviços: um novo ponto de encontro, convivência e lazer para uma região cercada por
+          condomínios residenciais. Com uma arquitetura clássica e imponente, que traduz
+          elegância e sofisticação, o empreendimento foi concebido para proporcionar
+          experiências agradáveis, valorizar o tempo compartilhado e integrar-se ao cotidiano
+          da comunidade. Um lugar onde conveniência, bem-estar e boas experiências se
+          encontram em uma atmosfera acolhedora e exclusiva.
+        </p>
+        <figure className="patio-fachada">
+          <Image
+            src="/projeto/fachada.jpg"
+            alt="Perspectiva da fachada do Pátio Boa Vista ao entardecer: arcos iluminados e a entrada central com o nome da galeria."
+            width={1578}
+            height={648}
+            sizes="(min-width: 1200px) 1330px, 100vw"
+          />
+          <figcaption>Perspectiva ilustrativa da fachada, sujeita a alterações durante a obra.</figcaption>
+        </figure>
         {temEspacoLivre && (
           <div className="patio-locacao">
             <p>Ainda há espaços disponíveis para locação.</p>

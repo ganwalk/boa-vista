@@ -122,3 +122,8 @@ Conferida item por item contra a placa de obra:
 - "Obra por administração" incluído.
 - Crédito das plantas corrigido: o projeto arquitetônico é da Nuanza Arq & Interiores; a ARL (Andréa Rocha Lima) assina "Conceito e criação" e a apresentação de onde as plantas foram tiradas.
 - Grafia: a placa escreve "Andréa", a apresentação "Andréia". A ficha segue a placa; confirmar com a cliente.
+
+## 8. Texto do Pátio e imagem da fachada
+
+- O texto institucional do manual voltou para a seção "O Pátio", sem edição, a pedido da cliente. A auditoria no-ai-slop (seção 1) continua valendo como observação, mas a decisão foi manter o texto aprovado.
+- Uma única perspectiva da apresentação foi mantida: a fachada frontal ao entardecer, recortada para tirar o carro e o excesso de asfalto, sem pessoas. Legenda: "Perspectiva ilustrativa da fachada, sujeita a alterações durante a obra."

@@ -1475,3 +1475,39 @@ html.vt-cobrir::view-transition-new(root) {
   .ficha-regime { grid-row: 2; margin-top: 0; }
   .ficha-lista { grid-row: 1 / span 3; }
 }
+
+/* O Pátio: texto institucional num bloco só, na medida de leitura. */
+.patio-texto {
+  max-width: 60ch;
+  margin-top: var(--s5);
+  padding-top: var(--s4);
+  border-top: 1px solid rgb(238 229 213 / 0.25);
+  font-size: clamp(1.125rem, 1.4vw, 1.3125rem);
+  line-height: 1.65;
+}
+
+.patio-fachada {
+  margin: var(--s6) 0 0;
+}
+
+.patio-fachada img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.patio-fachada figcaption {
+  margin-top: 0.75rem;
+  font-size: 0.8125rem;
+  color: var(--sobre-verde-2);
+}
+
+@media (max-width: 720px) {
+  .patio-fachada {
+    margin-top: var(--s5);
+    margin-inline: calc(var(--margem) * -1);
+  }
+  .patio-fachada figcaption {
+    padding-inline: var(--margem);
+  }
+}
