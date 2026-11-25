@@ -100,5 +100,7 @@ Nenhum elemento entra com fade-and-slide ao rolar, nada usa bounce/spring, não 
   - **Subsolo 2:** "D.M.L." e "Depósito" adicionados como na prancha. A escada inclui o lance tracejado, que é a projeção do lance que desce.
   - **Elevadores:** espaço próprio nos quatro pavimentos. No Térreo, "Hall" e "Escada" agora são separados.
   - **Banheiros do Subsolo 1:** cobrem as cabines; antes cobriam só a antecâmara. Os banheiros na diagonal do 1º pavimento foram adicionados.
-  - **Áreas externas:** "Estacionamento", "Jardim" e "Escada externa" deixaram de ser interativos. Na prancha do Subsolo 2, a "escada externa" fica fora da linha azul do prédio, e as pranchas não deixam claro em que nível está o terreno.
+  - **Escada externa:** deixou de ser interativa. Na prancha do Subsolo 2 ela fica fora da linha azul do prédio, e a escada dentro dela é tracejada (projeção de outro nível). Estacionamento e jardim continuam interativos, como terreno desenhado igual em todas as pranchas.
+  - **Linhas tracejadas em X** (corredor do Térreo, vazio do 1º pavimento): o destaque era picotado por elas. Esses ambientes agora são preenchidos considerando só as paredes contínuas.
+  - **1º pavimento:** a sala fechada no meio do pavimento, com banheiro próprio, virou um ambiente separado ("Sala"); o restante é o "Salão".
 - **Os nomes, fora os escritos na prancha (D.M.L., Depósito), são uma leitura dos símbolos do desenho.** A lista está em `src/content/espacos.ts` e deve ser confirmada pela ARL.
