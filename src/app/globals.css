@@ -1403,6 +1403,7 @@ html.vt-cobrir::view-transition-new(root) {
 }
 
 .planta-espacos .espaco {
+  fill-rule: evenodd;
   fill: rgb(194 155 98 / 0);
   stroke: none;
   cursor: pointer;

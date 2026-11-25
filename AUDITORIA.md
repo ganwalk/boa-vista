@@ -111,4 +111,5 @@ Nenhum elemento entra com fade-and-slide ao rolar, nada usa bounce/spring, não 
 - Subsolo 1: a antecâmara dos banheiros passou a fazer parte de "Banheiros".
 - 1º pavimento: a "Sala" inclui o banheiro dela; os dois blocos de banheiros não têm mais cabines sem pintura.
 - Todos: sobreposições entre espaços vizinhos foram resolvidas a favor do menor (portas e cabines não ficam cobertas pelo corredor).
-- Ficam sem rótulo os banheiros privativos de cada sala (pequenos demais para destacar separadamente) e as faixas de parede entre as vagas e a contenção.
+- Os banheiros privativos de cada sala comercial (Térreo e Subsolo 1) fazem parte da área da sala e acendem junto com ela. O hall do Térreo tem um furo no lugar da escada, para não acenderem juntos.
+- Ficam sem rótulo as faixas de parede entre as vagas e a contenção, no Subsolo 2.
