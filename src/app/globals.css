@@ -1225,7 +1225,7 @@ html.vt-cobrir::view-transition-new(root) {
   }
 }
 
-/* O projeto: plantas da ARL desenhadas em traço, com seletor de pavimento. */
+/* O projeto: plantas da Nuanza desenhadas em traço, com seletor de pavimento. */
 .projeto {
   padding: var(--s7) var(--margem) var(--s6);
 }
@@ -1439,4 +1439,39 @@ html.vt-cobrir::view-transition-new(root) {
 .planta-terreno,
 .planta-pavimento {
   pointer-events: none;
+}
+
+/* Ficha técnica: regime da obra e registros profissionais, como na placa. */
+.ficha-regime {
+  grid-column: 1 / 5;
+  align-self: start;
+  margin-top: -1rem;
+  font-size: 0.875rem;
+  color: var(--tinta-2);
+}
+
+.ficha-registro {
+  display: block;
+  margin-top: 0.1rem;
+  font-family: var(--f-corpo);
+  font-size: 0.8125rem;
+  color: var(--tinta-2);
+  font-variant-numeric: tabular-nums;
+}
+
+.ficha-item dd + dd {
+  margin-top: 0.5rem;
+}
+
+@media (max-width: 900px) {
+  .ficha-regime {
+    grid-column: 1 / -1;
+    margin-top: -1.5rem;
+  }
+}
+
+@media (min-width: 901px) {
+  .ficha .secao-titulo { grid-row: 1; }
+  .ficha-regime { grid-row: 2; margin-top: 0; }
+  .ficha-lista { grid-row: 1 / span 3; }
 }

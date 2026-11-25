@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { espacos } from "@/content/espacos";
 import { PLANTA_ALTURA, PLANTA_LARGURA, pavimentos, terreno } from "@/content/plantas";
 
-// Plantas do projeto da ARL, vetorizadas a partir da apresentação de agosto de 2026
+// Plantas do projeto arquitetônico (Nuanza Arq & Interiores), vetorizadas a partir da apresentação de agosto de 2026
 // e alinhadas entre si (escala uniforme, sem deformar). O terreno é desenhado uma vez,
 // em traço claro; cada pavimento se desenha por cima ao ser escolhido.
 
@@ -167,7 +167,7 @@ export function Projeto() {
       </div>
 
       <p className="projeto-credito">
-        Plantas: ARL, apresentação de agosto de 2026. Redesenhadas a partir do original,
+        Projeto arquitetônico: Nuanza Arq & Interiores. Plantas redesenhadas a partir da apresentação de agosto de 2026,
         sem escala; sujeitas a alterações durante a obra.
       </p>
     </section>

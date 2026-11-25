@@ -4,7 +4,7 @@ import { Indice } from "@/components/Indice";
 import { Projeto } from "@/components/Projeto";
 import { Vitrines } from "@/components/Vitrines";
 import { lojas } from "@/content/lojas";
-import { ficha } from "@/content/site";
+import { ficha, regimeObra } from "@/content/site";
 
 // Número por extenso no começo da frase ("Seis lojas…", não "6 lojas…").
 const porExtenso = (n: number) =>
@@ -51,12 +51,16 @@ export default function Home() {
         <h2 id="ficha-titulo" className="secao-titulo">
           Ficha técnica
         </h2>
+        <p className="ficha-regime">{regimeObra}</p>
         <dl className="ficha-lista">
           {ficha.map((f) => (
             <div key={f.papel} className="ficha-item">
               <dt>{f.papel}</dt>
               {f.nomes.map((n) => (
-                <dd key={n}>{n}</dd>
+                <dd key={n.nome}>
+                  {n.nome}
+                  {n.registro ? <span className="ficha-registro">{n.registro}</span> : null}
+                </dd>
               ))}
             </div>
           ))}

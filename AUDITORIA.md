@@ -113,3 +113,12 @@ Nenhum elemento entra com fade-and-slide ao rolar, nada usa bounce/spring, não 
 - Todos: sobreposições entre espaços vizinhos foram resolvidas a favor do menor (portas e cabines não ficam cobertas pelo corredor).
 - Os banheiros privativos de cada sala comercial (Térreo e Subsolo 1) fazem parte da área da sala e acendem junto com ela. O hall do Térreo tem um furo no lugar da escada, para não acenderem juntos.
 - Ficam sem rótulo as faixas de parede entre as vagas e a contenção, no Subsolo 2.
+
+## 7. Ficha técnica
+
+Conferida item por item contra a placa de obra:
+- Estrutural, hidrossanitário e elétrico voltaram a ser três itens, como na placa.
+- Registros incluídos: CNPJ do proprietário, CAU do responsável técnico e das arquitetas (A290635-0, A324812-7), CREA do engenheiro.
+- "Obra por administração" incluído.
+- Crédito das plantas corrigido: o projeto arquitetônico é da Nuanza Arq & Interiores; a ARL (Andréa Rocha Lima) assina "Conceito e criação" e a apresentação de onde as plantas foram tiradas.
+- Grafia: a placa escreve "Andréa", a apresentação "Andréia". A ficha segue a placa; confirmar com a cliente.
