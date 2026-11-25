@@ -1,6 +1,7 @@
 import { Contato } from "@/components/Contato";
 import { Hero } from "@/components/Hero";
 import { Indice } from "@/components/Indice";
+import { Projeto } from "@/components/Projeto";
 import { Vitrines } from "@/components/Vitrines";
 import { lojas } from "@/content/lojas";
 import { ficha } from "@/content/site";
@@ -43,6 +44,8 @@ export default function Home() {
           </div>
         )}
       </section>
+
+      <Projeto />
 
       <section id="ficha" className="ficha" aria-labelledby="ficha-titulo">
         <h2 id="ficha-titulo" className="secao-titulo">

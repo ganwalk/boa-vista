@@ -80,3 +80,10 @@ Nenhum elemento entra com fade-and-slide ao rolar, nada usa bounce/spring, não 
 - Endereço, data de abertura e contatos (`src/content/site.ts`). Campos vazios não aparecem.
 - Elevação oficial da fachada da Nuanza. O desenho atual é um estudo com arcadas (`src/components/Facade.tsx`) e precisa ser conferido com o projeto.
 - Código Pantone do verde, arquivo vetorial do logo e licença da Cabrito Didone.
+
+## 6. Perspectivas do projeto (apresentação da ARL, agosto de 2026)
+
+- A hero abre com o desenho de linha se formando e, no fim, a perspectiva real da fachada se abre do centro no mesmo quadro. As fotos dentro das arcadas e a porta clicável saíram: o desenho agora é só a abertura.
+- Nova seção "O projeto" com seis perspectivas (fachada, entrada, calçada, hall, varanda, vista aérea), em `public/projeto/`, com crédito e o aviso "imagens ilustrativas", como na apresentação.
+- Fatos usados: dois subsolos, térreo e primeiro pavimento, estacionamento no terreno (das plantas da apresentação).
+- Divergência a confirmar: a placa de obra escreve "Andréa Rocha Lima"; a apresentação, "Andréia Rocha Lima". O crédito das perspectivas usa a grafia da apresentação; a ficha técnica mantém a da placa.
