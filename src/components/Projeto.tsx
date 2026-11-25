@@ -1,62 +1,54 @@
-import Image from "next/image";
+"use client";
 
-// Perspectivas do projeto, da apresentação da ARL (agosto de 2026).
-// São imagens ilustrativas: a obra está em andamento.
+import { useEffect, useRef, useState } from "react";
+import { PLANTA_ALTURA, PLANTA_LARGURA, pavimentos, terreno } from "@/content/plantas";
 
-type Vista = { src: string; alt: string; legenda: string; largura: number; altura: number; classe: string };
+// Plantas do projeto da ARL, vetorizadas a partir da apresentação de agosto de 2026
+// e alinhadas entre si (escala uniforme, sem deformar). O terreno é desenhado uma vez,
+// em traço claro; cada pavimento se desenha por cima ao ser escolhido.
 
-const vistas: Vista[] = [
-  {
-    src: "/projeto/fachada-frontal.jpg",
-    alt: "Fachada de três pavimentos em pedra clara, com janelas em arco iluminadas e jardim na frente.",
-    legenda: "Fachada voltada para o estacionamento",
-    largura: 1677,
-    altura: 938,
-    classe: "projeto-vista--larga",
-  },
-  {
-    src: "/projeto/entrada.jpg",
-    alt: "Entrada com marquise curva de ferro e o letreiro Pátio Boa Vista sobre portas de vidro, mesas na varanda.",
-    legenda: "Entrada principal",
-    largura: 1700,
-    altura: 925,
-    classe: "projeto-vista--esq",
-  },
-  {
-    src: "/projeto/calcada.jpg",
-    alt: "Calçada de pedra diante da fachada em arcos, com postes de ferro, árvores em vasos e pessoas passeando.",
-    legenda: "Calçada da galeria",
-    largura: 1723,
-    altura: 913,
-    classe: "projeto-vista--dir",
-  },
-  {
-    src: "/projeto/hall.jpg",
-    alt: "Hall com piso de ladrilho geométrico, duas árvores em jardineiras e sofás curvos cor de terracota.",
-    legenda: "Hall de acesso",
-    largura: 1770,
-    altura: 889,
-    classe: "projeto-vista--meio",
-  },
-  {
-    src: "/projeto/varanda.jpg",
-    alt: "Varanda coberta com piso de ladrilho, arandelas acesas e vista para as palmeiras ao pôr do sol.",
-    legenda: "Varanda",
-    largura: 1659,
-    altura: 948,
-    classe: "projeto-vista--esq",
-  },
-  {
-    src: "/projeto/aerea.jpg",
-    alt: "Vista aérea do conjunto ao entardecer, com o portal de entrada do estacionamento e o prédio em arcos.",
-    legenda: "Conjunto e portal do estacionamento",
-    largura: 1672,
-    altura: 941,
-    classe: "projeto-vista--dir",
-  },
-];
+const INICIAL = "terreo";
 
 export function Projeto() {
+  const [slug, setSlug] = useState(INICIAL);
+  const [visto, setVisto] = useState(false);
+  const caixa = useRef<HTMLDivElement>(null);
+
+  // Espessura do traço em pixels reais (1px), convertida para as unidades da planta.
+  useEffect(() => {
+    const el = caixa.current;
+    if (!el) return;
+    const ajustar = () => {
+      const largura = el.getBoundingClientRect().width;
+      if (largura) el.style.setProperty("--k", (PLANTA_LARGURA / largura).toFixed(3));
+    };
+    ajustar();
+    const ro = new ResizeObserver(ajustar);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
+  // O desenho começa quando a planta entra na tela.
+  useEffect(() => {
+    const el = caixa.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([e]) => {
+        if (e.isIntersecting) {
+          setVisto(true);
+          io.disconnect();
+        }
+      },
+      { threshold: 0.3 },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  const atual = pavimentos.find((p) => p.slug === slug) ?? pavimentos[0];
+  const ordem = ["subsolo-2", "subsolo-1", "terreo", "primeiro"];
+  const lista = ordem.map((s) => pavimentos.find((p) => p.slug === s)!).reverse();
+
   return (
     <section id="projeto" className="projeto" aria-labelledby="projeto-titulo">
       <div className="projeto-topo">
@@ -64,30 +56,59 @@ export function Projeto() {
           O projeto
         </h2>
         <p className="projeto-texto">
-          Pedra clara, arcos com caixilhos pretos e uma marquise de ferro e vidro sobre
-          a entrada. São dois subsolos, térreo e primeiro pavimento, com estacionamento
-          dentro do terreno.
+          Dois subsolos, térreo e primeiro pavimento, com estacionamento dentro do terreno.
+          Escolha um pavimento para ver a planta.
         </p>
       </div>
 
-      <div className="projeto-galeria">
-        {vistas.map((v, i) => (
-          <figure key={v.src} className={`projeto-vista ${v.classe}`}>
-            <Image
-              src={v.src}
-              alt={v.alt}
-              width={v.largura}
-              height={v.altura}
-              sizes={i === 0 ? "100vw" : "(min-width: 900px) 60vw, 100vw"}
-            />
-            <figcaption>{v.legenda}</figcaption>
-          </figure>
-        ))}
+      <div className="projeto-corpo">
+        <ul className="projeto-pavimentos" aria-label="Pavimentos">
+          {lista.map((p) => (
+            <li key={p.slug}>
+              <button
+                type="button"
+                aria-pressed={p.slug === slug}
+                onClick={() => setSlug(p.slug)}
+              >
+                {p.nome}
+              </button>
+            </li>
+          ))}
+        </ul>
+
+        <div ref={caixa} className="projeto-planta" data-visto={visto}>
+          <svg
+            viewBox={`0 0 ${PLANTA_LARGURA} ${PLANTA_ALTURA}`}
+            role="img"
+            aria-label={`Planta do ${atual.nome} do Pátio Boa Vista`}
+          >
+            <g className="planta-terreno">
+              {terreno.map((d, i) => (
+                <path
+                  key={i}
+                  d={d}
+                  pathLength={1}
+                  style={{ ["--d" as string]: `${Math.round(Math.min(i * 2.4, 1400))}ms` }}
+                />
+              ))}
+            </g>
+            <g className="planta-pavimento" key={atual.slug}>
+              {atual.tracos.map((d, i) => (
+                <path
+                  key={i}
+                  d={d}
+                  pathLength={1}
+                  style={{ ["--d" as string]: `${Math.round(Math.min(i * 3, 1800))}ms` }}
+                />
+              ))}
+            </g>
+          </svg>
+        </div>
       </div>
 
       <p className="projeto-credito">
-        Perspectivas: ARL, Andréia Rocha Lima. Imagens ilustrativas, sujeitas a alterações
-        durante a obra.
+        Plantas: ARL, apresentação de agosto de 2026. Redesenhadas a partir do original,
+        sem escala; sujeitas a alterações durante a obra.
       </p>
     </section>
   );

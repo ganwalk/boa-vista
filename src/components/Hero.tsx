@@ -1,9 +1,9 @@
 "use client";
 
-import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import type { Loja } from "@/content/lojas";
 import { site } from "@/content/site";
+import { irPara } from "@/lib/irPara";
 import { Facade } from "./Facade";
 import { Lockup } from "./Lockup";
 
@@ -23,13 +23,14 @@ function fimDoDesenho(raiz: HTMLElement | null) {
 }
 
 export function Hero({ lojas }: { lojas: Loja[] }) {
+  const [foco, setFoco] = useState<Loja | "entrada" | null>(null);
   const [destaque, setDestaque] = useState<number | null>(null);
-  const [revelado, setRevelado] = useState(false);
+  const [entrando, setEntrando] = useState(false);
   const secao = useRef<HTMLElement>(null);
 
-  // No fim do desenho: a perspectiva do projeto aparece no lugar do traço
-  // e as lojas começam a se revezar no rodapé. Pausa com a aba escondida
-  // ou com a hero fora da tela; com movimento reduzido, tudo já aparece pronto.
+  // As lojas se revezam sozinhas, no desktop e no celular, a partir do fim do desenho.
+  // O hover numa arcada só sobrepõe o que aparece; o revezamento continua por trás.
+  // Pausa com a aba escondida ou com a hero fora da tela; parado com movimento reduzido.
   useEffect(() => {
     const reduz = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     let visivel = true;
@@ -40,7 +41,6 @@ export function Hero({ lojas }: { lojas: Loja[] }) {
 
     let intervalo = 0;
     const comeco = window.setTimeout(() => {
-      setRevelado(true);
       setDestaque(0);
       if (reduz) return;
       intervalo = window.setInterval(() => {
@@ -56,25 +56,38 @@ export function Hero({ lojas }: { lojas: Loja[] }) {
     };
   }, [lojas.length]);
 
-  const loja = destaque !== null ? lojas[destaque] : null;
+  const entrar = () => {
+    setEntrando(true);
+    // As folhas da porta terminam de abrir; então a lista de lojas sobe por cima da tela.
+    window.setTimeout(() => {
+      irPara("lojas");
+      window.setTimeout(() => setEntrando(false), 900);
+    }, 280);
+  };
+
+  // À direita: a arcada sob o mouse ou, sem hover, a loja da vez no revezamento.
+  const lado =
+    foco === "entrada"
+      ? { nome: "Todas as lojas", sub: "Entrada" }
+      : foco
+        ? { nome: foco.nome, sub: foco.categoria }
+        : destaque !== null
+          ? { nome: lojas[destaque].nome, sub: lojas[destaque].categoria }
+          : null;
 
   return (
-    <section ref={secao} className="hero" data-revelado={revelado}>
+    <section ref={secao} className="hero" data-entrando={entrando}>
       <h1 className="sr-only">{site.nome}</h1>
       <Lockup className="hero-lockup" />
 
-      <figure className="hero-fachada">
-        <Facade />
-        <Image
-          className="hero-perspectiva"
-          src="/projeto/fachada-rua.jpg"
-          alt="Perspectiva do Pátio Boa Vista ao entardecer: a fachada em arcos vista da rua, com a entrada central iluminada."
-          width={1866}
-          height={843}
-          sizes="(min-width: 1200px) 1180px, 100vw"
-          priority
+      <div className="hero-fachada">
+        <Facade
+          lojas={lojas}
+          destaque={foco === null ? destaque : null}
+          onFoco={setFoco}
+          onEntrar={entrar}
         />
-      </figure>
+      </div>
 
       <div className="hero-rodape">
         <div className="hero-esq">
@@ -86,10 +99,10 @@ export function Hero({ lojas }: { lojas: Loja[] }) {
         </div>
 
         <p className="hero-lado" aria-hidden="true">
-          {loja ? (
-            <span className="hero-lado-troca" key={loja.nome}>
-              <span className="hero-foco-nome">{loja.nome}</span>
-              <span className="hero-lado-sub">{loja.categoria}</span>
+          {lado ? (
+            <span className="hero-lado-troca" key={lado.nome}>
+              <span className="hero-foco-nome">{lado.nome}</span>
+              <span className="hero-lado-sub">{lado.sub}</span>
             </span>
           ) : null}
         </p>

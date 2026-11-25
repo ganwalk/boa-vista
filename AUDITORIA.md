@@ -81,9 +81,11 @@ Nenhum elemento entra com fade-and-slide ao rolar, nada usa bounce/spring, não 
 - Elevação oficial da fachada da Nuanza. O desenho atual é um estudo com arcadas (`src/components/Facade.tsx`) e precisa ser conferido com o projeto.
 - Código Pantone do verde, arquivo vetorial do logo e licença da Cabrito Didone.
 
-## 6. Perspectivas do projeto (apresentação da ARL, agosto de 2026)
+## 6. Projeto arquitetônico: plantas em desenho animado
 
-- A hero abre com o desenho de linha se formando e, no fim, a perspectiva real da fachada se abre do centro no mesmo quadro. As fotos dentro das arcadas e a porta clicável saíram: o desenho agora é só a abertura.
-- Nova seção "O projeto" com seis perspectivas (fachada, entrada, calçada, hall, varanda, vista aérea), em `public/projeto/`, com crédito e o aviso "imagens ilustrativas", como na apresentação.
-- Fatos usados: dois subsolos, térreo e primeiro pavimento, estacionamento no terreno (das plantas da apresentação).
-- Divergência a confirmar: a placa de obra escreve "Andréa Rocha Lima"; a apresentação, "Andréia Rocha Lima". O crédito das perspectivas usa a grafia da apresentação; a ficha técnica mantém a da placa.
+- As perspectivas da apresentação da ARL foram descartadas (aparência de imagem gerada, com pessoas, carros e vegetação genéricos). A hero voltou ao desenho de linha interativo.
+- A seção "O projeto" usa as plantas técnicas da apresentação (Subsolo 2, Subsolo 1, Térreo, 1º pavimento) como elemento gráfico. Elas foram vetorizadas pelo eixo das linhas, a partir das imagens do PDF, e se desenham em traço ao entrar na tela e a cada troca de pavimento.
+- Fidelidade ao projeto: o alinhamento entre pavimentos usa só escala uniforme e deslocamento (rotação medida abaixo de 0,06°), então não há deformação. A simplificação do traço fica a no máximo 0,5 px do original. Conferência por sobreposição com o original: 95 a 98% das linhas originais cobertas, e 97 a 100% dos traços sobre linhas originais. A diferença restante é a borda da rua, que nas pranchas originais varia 2 a 3 px de um pavimento para outro. Textos e cotas da prancha não foram reproduzidos.
+- Lote, vagas e rua são iguais nos quatro pavimentos e aparecem em traço claro; o prédio de cada pavimento, em traço escuro.
+- Scripts de vetorização e conferência ficaram fora do repositório; o resultado está em `src/content/plantas.ts`.
+- Divergência a confirmar: a placa de obra escreve "Andréa Rocha Lima"; a apresentação, "Andréia Rocha Lima".
