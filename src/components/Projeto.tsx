@@ -13,6 +13,9 @@ const INICIAL = "terreo";
 export function Projeto() {
   const [slug, setSlug] = useState(INICIAL);
   const [visto, setVisto] = useState(false);
+  // No celular a planta enquadra só o prédio (o terreno inteiro deixaria tudo minúsculo).
+  const [estreito, setEstreito] = useState(false);
+  const vb = estreito ? { x: 30, y: 450, w: 1290, h: 600 } : { x: 0, y: 0, w: PLANTA_LARGURA, h: PLANTA_ALTURA };
   // Espaço em destaque: com mouse, o que está sob o cursor; com toque, o último tocado.
   const [ativo, setAtivo] = useState<number | null>(null);
   const caixa = useRef<HTMLDivElement>(null);
@@ -23,13 +26,20 @@ export function Projeto() {
     if (!el) return;
     const ajustar = () => {
       const largura = el.getBoundingClientRect().width;
-      if (largura) el.style.setProperty("--k", (PLANTA_LARGURA / largura).toFixed(3));
+      if (largura) el.style.setProperty("--k", (vb.w / largura).toFixed(3));
     };
     ajustar();
     const ro = new ResizeObserver(ajustar);
+    const mq = window.matchMedia("(max-width: 720px)");
+    const trocar = () => setEstreito(mq.matches);
+    trocar();
+    mq.addEventListener("change", trocar);
     ro.observe(el);
-    return () => ro.disconnect();
-  }, []);
+    return () => {
+      ro.disconnect();
+      mq.removeEventListener("change", trocar);
+    };
+  }, [vb.w]);
 
   // O desenho começa quando a planta entra na tela.
   useEffect(() => {
@@ -107,7 +117,7 @@ export function Projeto() {
 
         <div ref={caixa} className="projeto-planta" data-visto={visto}>
           <svg
-            viewBox={`0 0 ${PLANTA_LARGURA} ${PLANTA_ALTURA}`}
+            viewBox={`${vb.x} ${vb.y} ${vb.w} ${vb.h}`}
             role="img"
             aria-label={`Planta do ${atual.nome} do Pátio Boa Vista`}
           >

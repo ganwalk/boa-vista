@@ -1393,7 +1393,7 @@ html.vt-cobrir::view-transition-new(root) {
   display: none;
 }
 
-@media (hover: none), (pointer: coarse) {
+@media (hover: none), (pointer: coarse), (max-width: 720px) {
   .so-mouse {
     display: none;
   }
@@ -1509,5 +1509,89 @@ html.vt-cobrir::view-transition-new(root) {
   }
   .patio-fachada figcaption {
     padding-inline: var(--margem);
+  }
+}
+
+/* O Pátio: título e texto lado a lado, do mesmo peso visual; a fachada embaixo, em largura total. */
+.patio {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  column-gap: var(--s3);
+  align-items: start;
+}
+
+.patio .patio-frase {
+  grid-column: 1 / 6;
+  font-size: clamp(2.25rem, 3.6vw, 3.5rem);
+  line-height: 1.08;
+  max-width: 12ch;
+}
+
+.patio .patio-texto {
+  grid-column: 7 / 13;
+  max-width: 52ch;
+  margin-top: 0.6rem;
+  padding-top: 0;
+  border-top: 0;
+  font-size: clamp(1.0625rem, 1.25vw, 1.1875rem);
+  line-height: 1.7;
+}
+
+.patio .patio-fachada,
+.patio .patio-locacao {
+  grid-column: 1 / -1;
+}
+
+.patio .patio-fachada {
+  margin-top: var(--s6);
+}
+
+@media (max-width: 900px) {
+  .patio .patio-frase,
+  .patio .patio-texto {
+    grid-column: 1 / -1;
+  }
+
+  .patio .patio-texto {
+    margin-top: var(--s3);
+  }
+}
+
+/* Celular: respiros proporcionais à tela, fachada em quadro mais alto, planta só do prédio. */
+@media (max-width: 720px) {
+  :root {
+    --s5: 3rem;
+    --s6: 4.5rem;
+    --s7: 5.5rem;
+  }
+
+  .patio .patio-frase {
+    font-size: 2.25rem;
+    max-width: none;
+  }
+
+  .patio .patio-texto {
+    font-size: 1.0625rem;
+    line-height: 1.65;
+  }
+
+  .patio .patio-fachada {
+    margin-top: var(--s5);
+  }
+
+  .patio-fachada img {
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    object-position: 50% 62%;
+  }
+
+  .projeto-planta svg {
+    overflow: hidden;
+  }
+
+  .vitrines-titulo,
+  .indice .secao-titulo,
+  .projeto-topo {
+    margin-bottom: var(--s3);
   }
 }
